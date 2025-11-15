@@ -1,0 +1,154 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        String   @id @default(uuid())
+  email     String   @unique
+  name      String
+  password  String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  roles     UserRole[]
+  jobs      Job[]      @relation("JobCreatedBy")
+  candidate Candidate?
+
+  @@map("users")
+}
+
+model Role {
+  id          String   @id @default(uuid())
+  name        String   @unique
+  description String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  users UserRole[]
+
+  @@map("roles")
+}
+
+model UserRole {
+  id     String @id @default(uuid())
+  userId String
+  roleId String
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  role Role @relation(fields: [roleId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, roleId])
+  @@map("user_roles")
+}
+
+enum JobStatus {
+  DRAFT
+  ACTIVE
+  INACTIVE
+}
+
+enum FieldRequirement {
+  MANDATORY
+  OPTIONAL
+  OFF
+}
+
+model Job {
+  id                 String    @id @default(uuid())
+  jobId              String    @unique
+  slug               String    @unique
+  title              String
+  jobType            String?
+  description        String?   @db.Text
+  numberOfCandidates Int?
+  status             JobStatus @default(DRAFT)
+  salaryMin          Int?
+  salaryMax          Int?
+  salaryCurrency     String?   @default("IDR")
+  closedAt           DateTime?
+  createdAt          DateTime  @default(now())
+  updatedAt          DateTime  @updatedAt
+  createdById        String
+
+  createdBy    User           @relation("JobCreatedBy", fields: [createdById], references: [id])
+  formFields   JobFormField[]
+  applications Application[]
+
+  @@map("jobs")
+}
+
+model JobFormField {
+  id              String           @id @default(uuid())
+  jobId           String
+  key             String
+  label           String
+  fieldType       String           @default("text")
+  placeholder     String?
+  helpText        String?
+  order           Int              @default(0)
+  requirement     FieldRequirement @default(OPTIONAL)
+  validationRules Json?
+  createdAt       DateTime         @default(now())
+  updatedAt       DateTime         @updatedAt
+
+  job Job @relation(fields: [jobId], references: [id], onDelete: Cascade)
+
+  @@map("job_form_fields")
+}
+
+enum ApplicationStatus {
+  SUBMITTED
+  REVIEWING
+  SHORTLISTED
+  INTERVIEW
+  OFFERED
+  ACCEPTED
+  REJECTED
+}
+
+model Candidate {
+  id          String    @id @default(cuid())
+  userId      String    @unique
+  email       String
+  phoneNumber String?
+  fullName    String?
+  photoUrl    String?
+  gender      String?
+  domicile    String?
+  linkedinUrl String?
+  dateOfBirth DateTime?
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  user         User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  applications Application[]
+
+  @@map("candidates")
+}
+
+model Application {
+  id          String @id @default(uuid())
+  jobId       String
+  candidateId String
+
+  // for feature drag and drop position
+  position    Float             @default(0)
+  // optional feature, if i have time
+  status      ApplicationStatus @default(SUBMITTED)
+  submittedAt DateTime          @default(now())
+  updatedAt   DateTime          @updatedAt
+
+  job       Job       @relation(fields: [jobId], references: [id])
+  candidate Candidate @relation(fields: [candidateId], references: [id])
+
+  @@map("applications")
+}
