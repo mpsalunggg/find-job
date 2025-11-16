@@ -1,11 +1,11 @@
 import { NextResponse } from "next/server";
 import type { ApiResponse, PaginatedData } from "@/types/response.type";
 
-export function successResponse<T>(
+export const successResponse = <T>(
   message: string,
   data: T,
   status: number = 200
-): NextResponse<ApiResponse<T>> {
+): NextResponse<ApiResponse<T>> => {
   return NextResponse.json(
     {
       success: true,
@@ -14,12 +14,12 @@ export function successResponse<T>(
     },
     { status }
   );
-}
+};
 
-export function errorResponse(
+export const errorResponse = (
   message: string,
   status: number = 500
-): NextResponse<ApiResponse<null>> {
+): NextResponse<ApiResponse<null>> => {
   return NextResponse.json(
     {
       success: false,
@@ -28,9 +28,9 @@ export function errorResponse(
     },
     { status }
   );
-}
+};
 
-export function paginatedResponse<T>(
+export const paginatedResponse = <T>(
   message: string,
   items: T[],
   meta: {
@@ -40,7 +40,7 @@ export function paginatedResponse<T>(
     totalPages: number;
   },
   status: number = 200
-): NextResponse<ApiResponse<PaginatedData<T>>> {
+): NextResponse<ApiResponse<PaginatedData<T>>> => {
   return NextResponse.json(
     {
       success: true,
@@ -52,4 +52,4 @@ export function paginatedResponse<T>(
     },
     { status }
   );
-}
+};
