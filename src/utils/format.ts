@@ -1,4 +1,5 @@
-export const formatSalary = (amount: number) => {
+export const formatSalary = (amount?: number | null) => {
+  if (!amount) return "";
   return new Intl.NumberFormat("id-ID", {
     style: "currency",
     currency: "IDR",

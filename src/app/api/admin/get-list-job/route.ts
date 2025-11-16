@@ -43,11 +43,6 @@ export async function GET(request: NextRequest) {
             order: "asc",
           },
         },
-        _count: {
-          select: {
-            applications: true,
-          },
-        },
       },
       orderBy: {
         createdAt: sortOrder as "asc" | "desc",
@@ -56,35 +51,32 @@ export async function GET(request: NextRequest) {
 
     return successResponse(
       "Success get job list",
-      {
-        jobs: jobs.map((job) => ({
-          id: job.id,
-          slug: job.slug,
-          title: job.title,
-          jobType: job.jobType,
-          description: job.description,
-          numberOfCandidates: job.numberOfCandidates,
-          status: job.status,
-          salaryMin: job.salaryMin,
-          salaryMax: job.salaryMax,
-          salaryCurrency: job.salaryCurrency,
-          startedOn: job.startedOn,
-          createdAt: job.createdAt,
-          updatedAt: job.updatedAt,
-          formFields: job.formFields.map((field) => ({
-            id: field.id,
-            key: field.key,
-            label: field.label,
-            fieldType: field.fieldType,
-            placeholder: field.placeholder,
-            helpText: field.helpText,
-            order: field.order,
-            requirement: field.requirement,
-            validationRules: field.validationRules,
-          })),
-          applicationsCount: job._count.applications,
+      jobs.map((job) => ({
+        id: job.id,
+        slug: job.slug,
+        title: job.title,
+        jobType: job.jobType,
+        description: job.description,
+        numberOfCandidates: job.numberOfCandidates,
+        status: job.status,
+        salaryMin: job.salaryMin,
+        salaryMax: job.salaryMax,
+        salaryCurrency: job.salaryCurrency,
+        startedOn: job.startedOn,
+        createdAt: job.createdAt,
+        updatedAt: job.updatedAt,
+        formFields: job.formFields.map((field) => ({
+          id: field.id,
+          key: field.key,
+          label: field.label,
+          fieldType: field.fieldType,
+          placeholder: field.placeholder,
+          helpText: field.helpText,
+          order: field.order,
+          requirement: field.requirement,
+          validationRules: field.validationRules,
         })),
-      },
+      })),
       200
     );
   } catch (error) {

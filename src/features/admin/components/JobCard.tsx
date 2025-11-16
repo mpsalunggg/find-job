@@ -6,20 +6,20 @@ import { Tag } from "@/components/common/Tag";
 interface JobCardProps {
   id: string;
   title: string;
-  salaryMin: number;
-  salaryMax: number;
-  status: "active" | "inactive" | "draft";
-  startDate?: string;
+  salaryMin: number | null;
+  salaryMax: number | null;
+  status: string;
+  startedOn?: string | null;
   onManageJob?: (jobId: string) => void;
 }
 
 const getStatusVariant = (status: string) => {
   switch (status) {
-    case "active":
+    case "ACTIVE":
       return "success";
-    case "inactive":
+    case "INACTIVE":
       return "danger";
-    case "draft":
+    case "DRAFT":
       return "warning";
     default:
       return "default";
@@ -32,7 +32,7 @@ export const JobCard = ({
   salaryMin,
   salaryMax,
   status,
-  startDate,
+  startedOn,
   onManageJob,
 }: JobCardProps) => {
   return (
@@ -45,9 +45,9 @@ export const JobCard = ({
                 <Tag size="sm" variant={getStatusVariant(status)} icon={false}>
                   {status.charAt(0).toUpperCase() + status.slice(1)}
                 </Tag>
-                {startDate && (
+                {startedOn && (
                   <Tag size="sm" variant="default" icon={false}>
-                    started on {formatDate(startDate)}
+                    started on {formatDate(startedOn)}
                   </Tag>
                 )}
               </div>
