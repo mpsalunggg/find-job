@@ -1,0 +1,85 @@
+import { ProfileFieldType } from "./job.type";
+
+// Todo: if there is time, this data will be dynamic
+export const DEFAULT_PROFILE_FIELDS: ProfileFieldType[] = [
+  {
+    key: "fullName",
+    label: "Full name",
+    fieldType: "text",
+    placeholder: "e.g., John Doe",
+    helpText: "Enter your full legal name",
+    requirement: "MANDATORY",
+    order: 0,
+  },
+  {
+    key: "photoUrl",
+    label: "Photo Profile",
+    fieldType: "file",
+    placeholder: "Upload your professional photo",
+    helpText: "Recommended: 500x500px, max 2MB",
+    requirement: "MANDATORY",
+    order: 1,
+  },
+  {
+    key: "gender",
+    label: "Gender",
+    fieldType: "select",
+    placeholder: "Select your gender",
+    helpText: null,
+    requirement: "MANDATORY",
+    order: 2,
+  },
+  {
+    key: "domicile",
+    label: "Domicile",
+    fieldType: "text",
+    placeholder: "e.g., Jakarta, Indonesia",
+    helpText: "Current city where you reside",
+    requirement: "OPTIONAL",
+    order: 3,
+  },
+  {
+    key: "email",
+    label: "Email",
+    fieldType: "email",
+    placeholder: "e.g., john.doe@example.com",
+    helpText: "We'll use this for communication",
+    requirement: "MANDATORY",
+    order: 4,
+  },
+  {
+    key: "phoneNumber",
+    label: "Phone number",
+    fieldType: "tel",
+    placeholder: "e.g., +62 812-3456-7890",
+    helpText: "Include country code",
+    requirement: "MANDATORY",
+    order: 5,
+  },
+  {
+    key: "linkedinUrl",
+    label: "Linkedin link",
+    fieldType: "url",
+    placeholder: "e.g., https://linkedin.com/in/johndoe",
+    helpText: "Your LinkedIn profile URL",
+    requirement: "MANDATORY",
+    order: 6,
+  },
+  {
+    key: "dateOfBirth",
+    label: "Date of birth",
+    fieldType: "date",
+    placeholder: "DD/MM/YYYY",
+    helpText: "Must be at least 18 years old",
+    requirement: "OFF",
+    order: 7,
+  },
+];
+
+export const JOB_TYPES = [
+  "Full-time",
+  "Contract",
+  "Part-time",
+  "Internship",
+  "Freelance",
+];

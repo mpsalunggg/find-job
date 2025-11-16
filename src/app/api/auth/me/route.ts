@@ -1,24 +1,17 @@
 import { NextRequest } from "next/server";
 import prisma from "@/lib/prisma";
-import { verifyToken } from "@/lib/jwt";
 import { successResponse, errorResponse } from "@/utils/response";
 
 export async function GET(request: NextRequest) {
   try {
-    const token = request.cookies.get("auth-token")?.value;
+    const userId = request.headers.get("x-user-id");
 
-    if (!token) {
-      return errorResponse("Tidak memiliki izin akses", 401);
-    }
-
-    const payload = verifyToken(token);
-
-    if (!payload) {
-      return errorResponse("Token tidak valid", 401);
+    if (!userId) {
+      return errorResponse("Unauthorized", 401);
     }
 
     const user = await prisma.user.findUnique({
-      where: { id: payload.userId },
+      where: { id: userId },
       include: {
         roles: {
           include: {
@@ -30,11 +23,11 @@ export async function GET(request: NextRequest) {
     });
 
     if (!user) {
-      return errorResponse("Pengguna tidak ditemukan", 404);
+      return errorResponse("User not found", 404);
     }
 
     return successResponse(
-      "Berhasil mengambil data pengguna",
+      "Success get user data",
       {
         id: user.id,
         email: user.email,
@@ -46,6 +39,6 @@ export async function GET(request: NextRequest) {
     );
   } catch (error) {
     console.error(error);
-    return errorResponse("Terjadi kesalahan pada server", 500);
+    return errorResponse("Failed to get user data", 500);
   }
 }

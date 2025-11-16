@@ -40,7 +40,6 @@ export type JobSumAggregateOutputType = {
 
 export type JobMinAggregateOutputType = {
   id: string | null;
-  jobId: string | null;
   slug: string | null;
   title: string | null;
   jobType: string | null;
@@ -50,7 +49,7 @@ export type JobMinAggregateOutputType = {
   salaryMin: number | null;
   salaryMax: number | null;
   salaryCurrency: string | null;
-  closedAt: Date | null;
+  startedOn: Date | null;
   createdAt: Date | null;
   updatedAt: Date | null;
   createdById: string | null;
@@ -58,7 +57,6 @@ export type JobMinAggregateOutputType = {
 
 export type JobMaxAggregateOutputType = {
   id: string | null;
-  jobId: string | null;
   slug: string | null;
   title: string | null;
   jobType: string | null;
@@ -68,7 +66,7 @@ export type JobMaxAggregateOutputType = {
   salaryMin: number | null;
   salaryMax: number | null;
   salaryCurrency: string | null;
-  closedAt: Date | null;
+  startedOn: Date | null;
   createdAt: Date | null;
   updatedAt: Date | null;
   createdById: string | null;
@@ -76,7 +74,6 @@ export type JobMaxAggregateOutputType = {
 
 export type JobCountAggregateOutputType = {
   id: number;
-  jobId: number;
   slug: number;
   title: number;
   jobType: number;
@@ -86,7 +83,7 @@ export type JobCountAggregateOutputType = {
   salaryMin: number;
   salaryMax: number;
   salaryCurrency: number;
-  closedAt: number;
+  startedOn: number;
   createdAt: number;
   updatedAt: number;
   createdById: number;
@@ -107,7 +104,6 @@ export type JobSumAggregateInputType = {
 
 export type JobMinAggregateInputType = {
   id?: true;
-  jobId?: true;
   slug?: true;
   title?: true;
   jobType?: true;
@@ -117,7 +113,7 @@ export type JobMinAggregateInputType = {
   salaryMin?: true;
   salaryMax?: true;
   salaryCurrency?: true;
-  closedAt?: true;
+  startedOn?: true;
   createdAt?: true;
   updatedAt?: true;
   createdById?: true;
@@ -125,7 +121,6 @@ export type JobMinAggregateInputType = {
 
 export type JobMaxAggregateInputType = {
   id?: true;
-  jobId?: true;
   slug?: true;
   title?: true;
   jobType?: true;
@@ -135,7 +130,7 @@ export type JobMaxAggregateInputType = {
   salaryMin?: true;
   salaryMax?: true;
   salaryCurrency?: true;
-  closedAt?: true;
+  startedOn?: true;
   createdAt?: true;
   updatedAt?: true;
   createdById?: true;
@@ -143,7 +138,6 @@ export type JobMaxAggregateInputType = {
 
 export type JobCountAggregateInputType = {
   id?: true;
-  jobId?: true;
   slug?: true;
   title?: true;
   jobType?: true;
@@ -153,7 +147,7 @@ export type JobCountAggregateInputType = {
   salaryMin?: true;
   salaryMax?: true;
   salaryCurrency?: true;
-  closedAt?: true;
+  startedOn?: true;
   createdAt?: true;
   updatedAt?: true;
   createdById?: true;
@@ -255,7 +249,6 @@ export type JobGroupByArgs<
 
 export type JobGroupByOutputType = {
   id: string;
-  jobId: string;
   slug: string;
   title: string;
   jobType: string | null;
@@ -265,7 +258,7 @@ export type JobGroupByOutputType = {
   salaryMin: number | null;
   salaryMax: number | null;
   salaryCurrency: string | null;
-  closedAt: Date | null;
+  startedOn: Date | null;
   createdAt: Date;
   updatedAt: Date;
   createdById: string;
@@ -293,7 +286,6 @@ export type JobWhereInput = {
   OR?: Prisma.JobWhereInput[];
   NOT?: Prisma.JobWhereInput | Prisma.JobWhereInput[];
   id?: Prisma.StringFilter<"Job"> | string;
-  jobId?: Prisma.StringFilter<"Job"> | string;
   slug?: Prisma.StringFilter<"Job"> | string;
   title?: Prisma.StringFilter<"Job"> | string;
   jobType?: Prisma.StringNullableFilter<"Job"> | string | null;
@@ -303,7 +295,7 @@ export type JobWhereInput = {
   salaryMin?: Prisma.IntNullableFilter<"Job"> | number | null;
   salaryMax?: Prisma.IntNullableFilter<"Job"> | number | null;
   salaryCurrency?: Prisma.StringNullableFilter<"Job"> | string | null;
-  closedAt?: Prisma.DateTimeNullableFilter<"Job"> | Date | string | null;
+  startedOn?: Prisma.DateTimeNullableFilter<"Job"> | Date | string | null;
   createdAt?: Prisma.DateTimeFilter<"Job"> | Date | string;
   updatedAt?: Prisma.DateTimeFilter<"Job"> | Date | string;
   createdById?: Prisma.StringFilter<"Job"> | string;
@@ -317,7 +309,6 @@ export type JobWhereInput = {
 
 export type JobOrderByWithRelationInput = {
   id?: Prisma.SortOrder;
-  jobId?: Prisma.SortOrder;
   slug?: Prisma.SortOrder;
   title?: Prisma.SortOrder;
   jobType?: Prisma.SortOrderInput | Prisma.SortOrder;
@@ -327,7 +318,7 @@ export type JobOrderByWithRelationInput = {
   salaryMin?: Prisma.SortOrderInput | Prisma.SortOrder;
   salaryMax?: Prisma.SortOrderInput | Prisma.SortOrder;
   salaryCurrency?: Prisma.SortOrderInput | Prisma.SortOrder;
-  closedAt?: Prisma.SortOrderInput | Prisma.SortOrder;
+  startedOn?: Prisma.SortOrderInput | Prisma.SortOrder;
   createdAt?: Prisma.SortOrder;
   updatedAt?: Prisma.SortOrder;
   createdById?: Prisma.SortOrder;
@@ -339,7 +330,6 @@ export type JobOrderByWithRelationInput = {
 export type JobWhereUniqueInput = Prisma.AtLeast<
   {
     id?: string;
-    jobId?: string;
     slug?: string;
     AND?: Prisma.JobWhereInput | Prisma.JobWhereInput[];
     OR?: Prisma.JobWhereInput[];
@@ -352,7 +342,7 @@ export type JobWhereUniqueInput = Prisma.AtLeast<
     salaryMin?: Prisma.IntNullableFilter<"Job"> | number | null;
     salaryMax?: Prisma.IntNullableFilter<"Job"> | number | null;
     salaryCurrency?: Prisma.StringNullableFilter<"Job"> | string | null;
-    closedAt?: Prisma.DateTimeNullableFilter<"Job"> | Date | string | null;
+    startedOn?: Prisma.DateTimeNullableFilter<"Job"> | Date | string | null;
     createdAt?: Prisma.DateTimeFilter<"Job"> | Date | string;
     updatedAt?: Prisma.DateTimeFilter<"Job"> | Date | string;
     createdById?: Prisma.StringFilter<"Job"> | string;
@@ -363,12 +353,11 @@ export type JobWhereUniqueInput = Prisma.AtLeast<
     formFields?: Prisma.JobFormFieldListRelationFilter;
     applications?: Prisma.ApplicationListRelationFilter;
   },
-  "id" | "jobId" | "slug"
+  "id" | "slug"
 >;
 
 export type JobOrderByWithAggregationInput = {
   id?: Prisma.SortOrder;
-  jobId?: Prisma.SortOrder;
   slug?: Prisma.SortOrder;
   title?: Prisma.SortOrder;
   jobType?: Prisma.SortOrderInput | Prisma.SortOrder;
@@ -378,7 +367,7 @@ export type JobOrderByWithAggregationInput = {
   salaryMin?: Prisma.SortOrderInput | Prisma.SortOrder;
   salaryMax?: Prisma.SortOrderInput | Prisma.SortOrder;
   salaryCurrency?: Prisma.SortOrderInput | Prisma.SortOrder;
-  closedAt?: Prisma.SortOrderInput | Prisma.SortOrder;
+  startedOn?: Prisma.SortOrderInput | Prisma.SortOrder;
   createdAt?: Prisma.SortOrder;
   updatedAt?: Prisma.SortOrder;
   createdById?: Prisma.SortOrder;
@@ -398,7 +387,6 @@ export type JobScalarWhereWithAggregatesInput = {
     | Prisma.JobScalarWhereWithAggregatesInput
     | Prisma.JobScalarWhereWithAggregatesInput[];
   id?: Prisma.StringWithAggregatesFilter<"Job"> | string;
-  jobId?: Prisma.StringWithAggregatesFilter<"Job"> | string;
   slug?: Prisma.StringWithAggregatesFilter<"Job"> | string;
   title?: Prisma.StringWithAggregatesFilter<"Job"> | string;
   jobType?: Prisma.StringNullableWithAggregatesFilter<"Job"> | string | null;
@@ -417,7 +405,7 @@ export type JobScalarWhereWithAggregatesInput = {
     | Prisma.StringNullableWithAggregatesFilter<"Job">
     | string
     | null;
-  closedAt?:
+  startedOn?:
     | Prisma.DateTimeNullableWithAggregatesFilter<"Job">
     | Date
     | string
@@ -429,7 +417,6 @@ export type JobScalarWhereWithAggregatesInput = {
 
 export type JobCreateInput = {
   id?: string;
-  jobId: string;
   slug: string;
   title: string;
   jobType?: string | null;
@@ -439,7 +426,7 @@ export type JobCreateInput = {
   salaryMin?: number | null;
   salaryMax?: number | null;
   salaryCurrency?: string | null;
-  closedAt?: Date | string | null;
+  startedOn?: Date | string | null;
   createdAt?: Date | string;
   updatedAt?: Date | string;
   createdBy: Prisma.UserCreateNestedOneWithoutJobsInput;
@@ -449,7 +436,6 @@ export type JobCreateInput = {
 
 export type JobUncheckedCreateInput = {
   id?: string;
-  jobId: string;
   slug: string;
   title: string;
   jobType?: string | null;
@@ -459,7 +445,7 @@ export type JobUncheckedCreateInput = {
   salaryMin?: number | null;
   salaryMax?: number | null;
   salaryCurrency?: string | null;
-  closedAt?: Date | string | null;
+  startedOn?: Date | string | null;
   createdAt?: Date | string;
   updatedAt?: Date | string;
   createdById: string;
@@ -469,7 +455,6 @@ export type JobUncheckedCreateInput = {
 
 export type JobUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string;
-  jobId?: Prisma.StringFieldUpdateOperationsInput | string;
   slug?: Prisma.StringFieldUpdateOperationsInput | string;
   title?: Prisma.StringFieldUpdateOperationsInput | string;
   jobType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
@@ -485,7 +470,7 @@ export type JobUpdateInput = {
     | Prisma.NullableStringFieldUpdateOperationsInput
     | string
     | null;
-  closedAt?:
+  startedOn?:
     | Prisma.NullableDateTimeFieldUpdateOperationsInput
     | Date
     | string
@@ -499,7 +484,6 @@ export type JobUpdateInput = {
 
 export type JobUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string;
-  jobId?: Prisma.StringFieldUpdateOperationsInput | string;
   slug?: Prisma.StringFieldUpdateOperationsInput | string;
   title?: Prisma.StringFieldUpdateOperationsInput | string;
   jobType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
@@ -515,7 +499,7 @@ export type JobUncheckedUpdateInput = {
     | Prisma.NullableStringFieldUpdateOperationsInput
     | string
     | null;
-  closedAt?:
+  startedOn?:
     | Prisma.NullableDateTimeFieldUpdateOperationsInput
     | Date
     | string
@@ -529,7 +513,6 @@ export type JobUncheckedUpdateInput = {
 
 export type JobCreateManyInput = {
   id?: string;
-  jobId: string;
   slug: string;
   title: string;
   jobType?: string | null;
@@ -539,7 +522,7 @@ export type JobCreateManyInput = {
   salaryMin?: number | null;
   salaryMax?: number | null;
   salaryCurrency?: string | null;
-  closedAt?: Date | string | null;
+  startedOn?: Date | string | null;
   createdAt?: Date | string;
   updatedAt?: Date | string;
   createdById: string;
@@ -547,7 +530,6 @@ export type JobCreateManyInput = {
 
 export type JobUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string;
-  jobId?: Prisma.StringFieldUpdateOperationsInput | string;
   slug?: Prisma.StringFieldUpdateOperationsInput | string;
   title?: Prisma.StringFieldUpdateOperationsInput | string;
   jobType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
@@ -563,7 +545,7 @@ export type JobUpdateManyMutationInput = {
     | Prisma.NullableStringFieldUpdateOperationsInput
     | string
     | null;
-  closedAt?:
+  startedOn?:
     | Prisma.NullableDateTimeFieldUpdateOperationsInput
     | Date
     | string
@@ -574,7 +556,6 @@ export type JobUpdateManyMutationInput = {
 
 export type JobUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string;
-  jobId?: Prisma.StringFieldUpdateOperationsInput | string;
   slug?: Prisma.StringFieldUpdateOperationsInput | string;
   title?: Prisma.StringFieldUpdateOperationsInput | string;
   jobType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
@@ -590,7 +571,7 @@ export type JobUncheckedUpdateManyInput = {
     | Prisma.NullableStringFieldUpdateOperationsInput
     | string
     | null;
-  closedAt?:
+  startedOn?:
     | Prisma.NullableDateTimeFieldUpdateOperationsInput
     | Date
     | string
@@ -612,7 +593,6 @@ export type JobOrderByRelationAggregateInput = {
 
 export type JobCountOrderByAggregateInput = {
   id?: Prisma.SortOrder;
-  jobId?: Prisma.SortOrder;
   slug?: Prisma.SortOrder;
   title?: Prisma.SortOrder;
   jobType?: Prisma.SortOrder;
@@ -622,7 +602,7 @@ export type JobCountOrderByAggregateInput = {
   salaryMin?: Prisma.SortOrder;
   salaryMax?: Prisma.SortOrder;
   salaryCurrency?: Prisma.SortOrder;
-  closedAt?: Prisma.SortOrder;
+  startedOn?: Prisma.SortOrder;
   createdAt?: Prisma.SortOrder;
   updatedAt?: Prisma.SortOrder;
   createdById?: Prisma.SortOrder;
@@ -636,7 +616,6 @@ export type JobAvgOrderByAggregateInput = {
 
 export type JobMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder;
-  jobId?: Prisma.SortOrder;
   slug?: Prisma.SortOrder;
   title?: Prisma.SortOrder;
   jobType?: Prisma.SortOrder;
@@ -646,7 +625,7 @@ export type JobMaxOrderByAggregateInput = {
   salaryMin?: Prisma.SortOrder;
   salaryMax?: Prisma.SortOrder;
   salaryCurrency?: Prisma.SortOrder;
-  closedAt?: Prisma.SortOrder;
+  startedOn?: Prisma.SortOrder;
   createdAt?: Prisma.SortOrder;
   updatedAt?: Prisma.SortOrder;
   createdById?: Prisma.SortOrder;
@@ -654,7 +633,6 @@ export type JobMaxOrderByAggregateInput = {
 
 export type JobMinOrderByAggregateInput = {
   id?: Prisma.SortOrder;
-  jobId?: Prisma.SortOrder;
   slug?: Prisma.SortOrder;
   title?: Prisma.SortOrder;
   jobType?: Prisma.SortOrder;
@@ -664,7 +642,7 @@ export type JobMinOrderByAggregateInput = {
   salaryMin?: Prisma.SortOrder;
   salaryMax?: Prisma.SortOrder;
   salaryCurrency?: Prisma.SortOrder;
-  closedAt?: Prisma.SortOrder;
+  startedOn?: Prisma.SortOrder;
   createdAt?: Prisma.SortOrder;
   updatedAt?: Prisma.SortOrder;
   createdById?: Prisma.SortOrder;
@@ -837,7 +815,6 @@ export type JobUpdateOneRequiredWithoutApplicationsNestedInput = {
 
 export type JobCreateWithoutCreatedByInput = {
   id?: string;
-  jobId: string;
   slug: string;
   title: string;
   jobType?: string | null;
@@ -847,7 +824,7 @@ export type JobCreateWithoutCreatedByInput = {
   salaryMin?: number | null;
   salaryMax?: number | null;
   salaryCurrency?: string | null;
-  closedAt?: Date | string | null;
+  startedOn?: Date | string | null;
   createdAt?: Date | string;
   updatedAt?: Date | string;
   formFields?: Prisma.JobFormFieldCreateNestedManyWithoutJobInput;
@@ -856,7 +833,6 @@ export type JobCreateWithoutCreatedByInput = {
 
 export type JobUncheckedCreateWithoutCreatedByInput = {
   id?: string;
-  jobId: string;
   slug: string;
   title: string;
   jobType?: string | null;
@@ -866,7 +842,7 @@ export type JobUncheckedCreateWithoutCreatedByInput = {
   salaryMin?: number | null;
   salaryMax?: number | null;
   salaryCurrency?: string | null;
-  closedAt?: Date | string | null;
+  startedOn?: Date | string | null;
   createdAt?: Date | string;
   updatedAt?: Date | string;
   formFields?: Prisma.JobFormFieldUncheckedCreateNestedManyWithoutJobInput;
@@ -921,7 +897,6 @@ export type JobScalarWhereInput = {
   OR?: Prisma.JobScalarWhereInput[];
   NOT?: Prisma.JobScalarWhereInput | Prisma.JobScalarWhereInput[];
   id?: Prisma.StringFilter<"Job"> | string;
-  jobId?: Prisma.StringFilter<"Job"> | string;
   slug?: Prisma.StringFilter<"Job"> | string;
   title?: Prisma.StringFilter<"Job"> | string;
   jobType?: Prisma.StringNullableFilter<"Job"> | string | null;
@@ -931,7 +906,7 @@ export type JobScalarWhereInput = {
   salaryMin?: Prisma.IntNullableFilter<"Job"> | number | null;
   salaryMax?: Prisma.IntNullableFilter<"Job"> | number | null;
   salaryCurrency?: Prisma.StringNullableFilter<"Job"> | string | null;
-  closedAt?: Prisma.DateTimeNullableFilter<"Job"> | Date | string | null;
+  startedOn?: Prisma.DateTimeNullableFilter<"Job"> | Date | string | null;
   createdAt?: Prisma.DateTimeFilter<"Job"> | Date | string;
   updatedAt?: Prisma.DateTimeFilter<"Job"> | Date | string;
   createdById?: Prisma.StringFilter<"Job"> | string;
@@ -939,7 +914,6 @@ export type JobScalarWhereInput = {
 
 export type JobCreateWithoutFormFieldsInput = {
   id?: string;
-  jobId: string;
   slug: string;
   title: string;
   jobType?: string | null;
@@ -949,7 +923,7 @@ export type JobCreateWithoutFormFieldsInput = {
   salaryMin?: number | null;
   salaryMax?: number | null;
   salaryCurrency?: string | null;
-  closedAt?: Date | string | null;
+  startedOn?: Date | string | null;
   createdAt?: Date | string;
   updatedAt?: Date | string;
   createdBy: Prisma.UserCreateNestedOneWithoutJobsInput;
@@ -958,7 +932,6 @@ export type JobCreateWithoutFormFieldsInput = {
 
 export type JobUncheckedCreateWithoutFormFieldsInput = {
   id?: string;
-  jobId: string;
   slug: string;
   title: string;
   jobType?: string | null;
@@ -968,7 +941,7 @@ export type JobUncheckedCreateWithoutFormFieldsInput = {
   salaryMin?: number | null;
   salaryMax?: number | null;
   salaryCurrency?: string | null;
-  closedAt?: Date | string | null;
+  startedOn?: Date | string | null;
   createdAt?: Date | string;
   updatedAt?: Date | string;
   createdById: string;
@@ -1005,7 +978,6 @@ export type JobUpdateToOneWithWhereWithoutFormFieldsInput = {
 
 export type JobUpdateWithoutFormFieldsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string;
-  jobId?: Prisma.StringFieldUpdateOperationsInput | string;
   slug?: Prisma.StringFieldUpdateOperationsInput | string;
   title?: Prisma.StringFieldUpdateOperationsInput | string;
   jobType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
@@ -1021,7 +993,7 @@ export type JobUpdateWithoutFormFieldsInput = {
     | Prisma.NullableStringFieldUpdateOperationsInput
     | string
     | null;
-  closedAt?:
+  startedOn?:
     | Prisma.NullableDateTimeFieldUpdateOperationsInput
     | Date
     | string
@@ -1034,7 +1006,6 @@ export type JobUpdateWithoutFormFieldsInput = {
 
 export type JobUncheckedUpdateWithoutFormFieldsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string;
-  jobId?: Prisma.StringFieldUpdateOperationsInput | string;
   slug?: Prisma.StringFieldUpdateOperationsInput | string;
   title?: Prisma.StringFieldUpdateOperationsInput | string;
   jobType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
@@ -1050,7 +1021,7 @@ export type JobUncheckedUpdateWithoutFormFieldsInput = {
     | Prisma.NullableStringFieldUpdateOperationsInput
     | string
     | null;
-  closedAt?:
+  startedOn?:
     | Prisma.NullableDateTimeFieldUpdateOperationsInput
     | Date
     | string
@@ -1063,7 +1034,6 @@ export type JobUncheckedUpdateWithoutFormFieldsInput = {
 
 export type JobCreateWithoutApplicationsInput = {
   id?: string;
-  jobId: string;
   slug: string;
   title: string;
   jobType?: string | null;
@@ -1073,7 +1043,7 @@ export type JobCreateWithoutApplicationsInput = {
   salaryMin?: number | null;
   salaryMax?: number | null;
   salaryCurrency?: string | null;
-  closedAt?: Date | string | null;
+  startedOn?: Date | string | null;
   createdAt?: Date | string;
   updatedAt?: Date | string;
   createdBy: Prisma.UserCreateNestedOneWithoutJobsInput;
@@ -1082,7 +1052,6 @@ export type JobCreateWithoutApplicationsInput = {
 
 export type JobUncheckedCreateWithoutApplicationsInput = {
   id?: string;
-  jobId: string;
   slug: string;
   title: string;
   jobType?: string | null;
@@ -1092,7 +1061,7 @@ export type JobUncheckedCreateWithoutApplicationsInput = {
   salaryMin?: number | null;
   salaryMax?: number | null;
   salaryCurrency?: string | null;
-  closedAt?: Date | string | null;
+  startedOn?: Date | string | null;
   createdAt?: Date | string;
   updatedAt?: Date | string;
   createdById: string;
@@ -1129,7 +1098,6 @@ export type JobUpdateToOneWithWhereWithoutApplicationsInput = {
 
 export type JobUpdateWithoutApplicationsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string;
-  jobId?: Prisma.StringFieldUpdateOperationsInput | string;
   slug?: Prisma.StringFieldUpdateOperationsInput | string;
   title?: Prisma.StringFieldUpdateOperationsInput | string;
   jobType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
@@ -1145,7 +1113,7 @@ export type JobUpdateWithoutApplicationsInput = {
     | Prisma.NullableStringFieldUpdateOperationsInput
     | string
     | null;
-  closedAt?:
+  startedOn?:
     | Prisma.NullableDateTimeFieldUpdateOperationsInput
     | Date
     | string
@@ -1158,7 +1126,6 @@ export type JobUpdateWithoutApplicationsInput = {
 
 export type JobUncheckedUpdateWithoutApplicationsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string;
-  jobId?: Prisma.StringFieldUpdateOperationsInput | string;
   slug?: Prisma.StringFieldUpdateOperationsInput | string;
   title?: Prisma.StringFieldUpdateOperationsInput | string;
   jobType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
@@ -1174,7 +1141,7 @@ export type JobUncheckedUpdateWithoutApplicationsInput = {
     | Prisma.NullableStringFieldUpdateOperationsInput
     | string
     | null;
-  closedAt?:
+  startedOn?:
     | Prisma.NullableDateTimeFieldUpdateOperationsInput
     | Date
     | string
@@ -1187,7 +1154,6 @@ export type JobUncheckedUpdateWithoutApplicationsInput = {
 
 export type JobCreateManyCreatedByInput = {
   id?: string;
-  jobId: string;
   slug: string;
   title: string;
   jobType?: string | null;
@@ -1197,14 +1163,13 @@ export type JobCreateManyCreatedByInput = {
   salaryMin?: number | null;
   salaryMax?: number | null;
   salaryCurrency?: string | null;
-  closedAt?: Date | string | null;
+  startedOn?: Date | string | null;
   createdAt?: Date | string;
   updatedAt?: Date | string;
 };
 
 export type JobUpdateWithoutCreatedByInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string;
-  jobId?: Prisma.StringFieldUpdateOperationsInput | string;
   slug?: Prisma.StringFieldUpdateOperationsInput | string;
   title?: Prisma.StringFieldUpdateOperationsInput | string;
   jobType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
@@ -1220,7 +1185,7 @@ export type JobUpdateWithoutCreatedByInput = {
     | Prisma.NullableStringFieldUpdateOperationsInput
     | string
     | null;
-  closedAt?:
+  startedOn?:
     | Prisma.NullableDateTimeFieldUpdateOperationsInput
     | Date
     | string
@@ -1233,7 +1198,6 @@ export type JobUpdateWithoutCreatedByInput = {
 
 export type JobUncheckedUpdateWithoutCreatedByInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string;
-  jobId?: Prisma.StringFieldUpdateOperationsInput | string;
   slug?: Prisma.StringFieldUpdateOperationsInput | string;
   title?: Prisma.StringFieldUpdateOperationsInput | string;
   jobType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
@@ -1249,7 +1213,7 @@ export type JobUncheckedUpdateWithoutCreatedByInput = {
     | Prisma.NullableStringFieldUpdateOperationsInput
     | string
     | null;
-  closedAt?:
+  startedOn?:
     | Prisma.NullableDateTimeFieldUpdateOperationsInput
     | Date
     | string
@@ -1262,7 +1226,6 @@ export type JobUncheckedUpdateWithoutCreatedByInput = {
 
 export type JobUncheckedUpdateManyWithoutCreatedByInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string;
-  jobId?: Prisma.StringFieldUpdateOperationsInput | string;
   slug?: Prisma.StringFieldUpdateOperationsInput | string;
   title?: Prisma.StringFieldUpdateOperationsInput | string;
   jobType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
@@ -1278,7 +1241,7 @@ export type JobUncheckedUpdateManyWithoutCreatedByInput = {
     | Prisma.NullableStringFieldUpdateOperationsInput
     | string
     | null;
-  closedAt?:
+  startedOn?:
     | Prisma.NullableDateTimeFieldUpdateOperationsInput
     | Date
     | string
@@ -1343,7 +1306,6 @@ export type JobSelect<
 > = runtime.Types.Extensions.GetSelect<
   {
     id?: boolean;
-    jobId?: boolean;
     slug?: boolean;
     title?: boolean;
     jobType?: boolean;
@@ -1353,7 +1315,7 @@ export type JobSelect<
     salaryMin?: boolean;
     salaryMax?: boolean;
     salaryCurrency?: boolean;
-    closedAt?: boolean;
+    startedOn?: boolean;
     createdAt?: boolean;
     updatedAt?: boolean;
     createdById?: boolean;
@@ -1371,7 +1333,6 @@ export type JobSelectCreateManyAndReturn<
 > = runtime.Types.Extensions.GetSelect<
   {
     id?: boolean;
-    jobId?: boolean;
     slug?: boolean;
     title?: boolean;
     jobType?: boolean;
@@ -1381,7 +1342,7 @@ export type JobSelectCreateManyAndReturn<
     salaryMin?: boolean;
     salaryMax?: boolean;
     salaryCurrency?: boolean;
-    closedAt?: boolean;
+    startedOn?: boolean;
     createdAt?: boolean;
     updatedAt?: boolean;
     createdById?: boolean;
@@ -1396,7 +1357,6 @@ export type JobSelectUpdateManyAndReturn<
 > = runtime.Types.Extensions.GetSelect<
   {
     id?: boolean;
-    jobId?: boolean;
     slug?: boolean;
     title?: boolean;
     jobType?: boolean;
@@ -1406,7 +1366,7 @@ export type JobSelectUpdateManyAndReturn<
     salaryMin?: boolean;
     salaryMax?: boolean;
     salaryCurrency?: boolean;
-    closedAt?: boolean;
+    startedOn?: boolean;
     createdAt?: boolean;
     updatedAt?: boolean;
     createdById?: boolean;
@@ -1417,7 +1377,6 @@ export type JobSelectUpdateManyAndReturn<
 
 export type JobSelectScalar = {
   id?: boolean;
-  jobId?: boolean;
   slug?: boolean;
   title?: boolean;
   jobType?: boolean;
@@ -1427,7 +1386,7 @@ export type JobSelectScalar = {
   salaryMin?: boolean;
   salaryMax?: boolean;
   salaryCurrency?: boolean;
-  closedAt?: boolean;
+  startedOn?: boolean;
   createdAt?: boolean;
   updatedAt?: boolean;
   createdById?: boolean;
@@ -1438,7 +1397,6 @@ export type JobOmit<
     runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs,
 > = runtime.Types.Extensions.GetOmit<
   | "id"
-  | "jobId"
   | "slug"
   | "title"
   | "jobType"
@@ -1448,7 +1406,7 @@ export type JobOmit<
   | "salaryMin"
   | "salaryMax"
   | "salaryCurrency"
-  | "closedAt"
+  | "startedOn"
   | "createdAt"
   | "updatedAt"
   | "createdById",
@@ -1489,7 +1447,6 @@ export type $JobPayload<
   scalars: runtime.Types.Extensions.GetPayloadResult<
     {
       id: string;
-      jobId: string;
       slug: string;
       title: string;
       jobType: string | null;
@@ -1499,7 +1456,7 @@ export type $JobPayload<
       salaryMin: number | null;
       salaryMax: number | null;
       salaryCurrency: string | null;
-      closedAt: Date | null;
+      startedOn: Date | null;
       createdAt: Date;
       updatedAt: Date;
       createdById: string;
@@ -2131,7 +2088,6 @@ export interface Prisma__JobClient<
  */
 export interface JobFieldRefs {
   readonly id: Prisma.FieldRef<"Job", "String">;
-  readonly jobId: Prisma.FieldRef<"Job", "String">;
   readonly slug: Prisma.FieldRef<"Job", "String">;
   readonly title: Prisma.FieldRef<"Job", "String">;
   readonly jobType: Prisma.FieldRef<"Job", "String">;
@@ -2141,7 +2097,7 @@ export interface JobFieldRefs {
   readonly salaryMin: Prisma.FieldRef<"Job", "Int">;
   readonly salaryMax: Prisma.FieldRef<"Job", "Int">;
   readonly salaryCurrency: Prisma.FieldRef<"Job", "String">;
-  readonly closedAt: Prisma.FieldRef<"Job", "DateTime">;
+  readonly startedOn: Prisma.FieldRef<"Job", "DateTime">;
   readonly createdAt: Prisma.FieldRef<"Job", "DateTime">;
   readonly updatedAt: Prisma.FieldRef<"Job", "DateTime">;
   readonly createdById: Prisma.FieldRef<"Job", "String">;

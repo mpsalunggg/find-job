@@ -26,7 +26,7 @@ const Header = () => {
 
       {user?.data && (
         <div className="flex h-full gap-4">
-          <Separator orientation="vertical" className="border" />
+          <Separator orientation="vertical" />
           <Popover>
             <PopoverTrigger asChild>
               <button className="cursor-pointer focus:outline-none">

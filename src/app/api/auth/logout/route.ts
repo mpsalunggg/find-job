@@ -2,7 +2,7 @@ import { successResponse, errorResponse } from "@/utils/response";
 
 export async function POST() {
   try {
-    const response = successResponse("Logout berhasil", null, 200);
+    const response = successResponse("Logout Success", null, 200);
 
     response.cookies.set({
       name: "auth-token",
@@ -16,7 +16,7 @@ export async function POST() {
 
     return response;
   } catch (error) {
-    console.error("Logout error:", error);
+    console.error(error);
     return errorResponse("Internal server error", 500);
   }
 }

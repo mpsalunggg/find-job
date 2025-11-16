@@ -110,7 +110,6 @@ export type UserRoleScalarFieldEnum =
 
 export const JobScalarFieldEnum = {
   id: "id",
-  jobId: "jobId",
   slug: "slug",
   title: "title",
   jobType: "jobType",
@@ -120,7 +119,7 @@ export const JobScalarFieldEnum = {
   salaryMin: "salaryMin",
   salaryMax: "salaryMax",
   salaryCurrency: "salaryCurrency",
-  closedAt: "closedAt",
+  startedOn: "startedOn",
   createdAt: "createdAt",
   updatedAt: "updatedAt",
   createdById: "createdById",

@@ -9,14 +9,6 @@ export async function POST(request: NextRequest) {
     const body = await request.json();
     const { email, password } = body;
 
-    if (!email || !password) {
-      return errorResponse("Email dan password wajib diisi", 400);
-    }
-
-    if (password.length < 6) {
-      return errorResponse("Password minimal harus 6 karakter", 400);
-    }
-
     const user = await prisma.user.findUnique({
       where: { email },
       include: {
@@ -29,13 +21,13 @@ export async function POST(request: NextRequest) {
     });
 
     if (!user) {
-      return errorResponse("Email tidak valid", 401);
+      return errorResponse("Invalid email", 401);
     }
 
     const isPasswordValid = await comparePassword(password, user.password);
 
     if (!isPasswordValid) {
-      return errorResponse("Password tidak valid", 401);
+      return errorResponse("Invalid password", 401);
     }
 
     const token = signToken({

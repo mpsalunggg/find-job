@@ -1,11 +1,11 @@
 import Header from "@/components/layout/Header";
 import { ReactNode } from "react";
 
-interface MainLayoutProps {
+interface HomeLayoutProps {
   children: ReactNode;
 }
 
-export default function MainLayout({ children }: MainLayoutProps) {
+export default function HomeLayout({ children }: HomeLayoutProps) {
   return (
     <div className="h-screen">
       <Header />

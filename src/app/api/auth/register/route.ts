@@ -9,20 +9,12 @@ export async function POST(request: NextRequest) {
     const body = await request.json();
     const { email, password } = body;
 
-    if (!email || !password) {
-      return errorResponse("Email dan password wajib diisi", 400);
-    }
-
-    if (password.length < 6) {
-      return errorResponse("Password minimal harus 6 karakter", 400);
-    }
-
     const existingUser = await prisma.user.findUnique({
       where: { email },
     });
 
     if (existingUser) {
-      return errorResponse("Pengguna dengan email ini sudah terdaftar", 400);
+      return errorResponse("A user with this email already exists", 400);
     }
 
     const hashedPassword = await hashPassword(password);
@@ -33,7 +25,7 @@ export async function POST(request: NextRequest) {
 
     if (!applicantRole) {
       return errorResponse(
-        "Role Applicant tidak ditemukan. Silakan jalankan seed database.",
+        "Applicant role not found. Please run the database seed.",
         500
       );
     }
@@ -63,7 +55,7 @@ export async function POST(request: NextRequest) {
     });
 
     const response = successResponse(
-      "Registrasi berhasil",
+      "Registration successful",
       {
         id: user.id,
         email: user.email,
@@ -85,6 +77,6 @@ export async function POST(request: NextRequest) {
     return response;
   } catch (error) {
     console.error(error);
-    return errorResponse("Terjadi kesalahan pada server", 500);
+    return errorResponse("Internal server error", 500);
   }
 }
