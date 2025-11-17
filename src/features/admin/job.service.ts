@@ -1,9 +1,13 @@
 import { api } from "@/lib/axios";
-import { CreateJobType, JobResponse } from "./job.type";
+import { CreateJobType, JobResponse, UpdateJobType } from "./job.type";
 
 export const jobService = {
   createJob: async (data: CreateJobType) => {
     return api.post("/admin/create-job", data);
+  },
+
+  updateJob: async (data: UpdateJobType) => {
+    return api.put(`/admin/update-job/${data.id}`, data);
   },
 
   getListJobs: async (search?: string, sort?: string) => {

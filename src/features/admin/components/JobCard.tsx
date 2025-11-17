@@ -10,7 +10,7 @@ interface JobCardProps {
   salaryMax: number | null;
   status: string;
   startedOn?: string | null;
-  onManageJob?: (jobId: string) => void;
+  onDetail?: (jobId: string) => void;
 }
 
 const getStatusVariant = (status: string) => {
@@ -33,7 +33,7 @@ export const JobCard = ({
   salaryMax,
   status,
   startedOn,
-  onManageJob,
+  onDetail,
 }: JobCardProps) => {
   return (
     <Card className="border border-none p-0 shadow-sm transition-shadow hover:shadow-md">
@@ -51,7 +51,7 @@ export const JobCard = ({
                   </Tag>
                 )}
               </div>
-              <div className="flex w-full items-end justify-between">
+              <div className="flex w-full flex-col gap-2 lg:flex-row lg:items-end lg:justify-between">
                 <div className="space-y-2">
                   <h3 className="text-xl font-bold text-neutral-900">
                     {title}
@@ -60,14 +60,23 @@ export const JobCard = ({
                     {formatSalary(salaryMin)} - {formatSalary(salaryMax)}
                   </p>
                 </div>
-                <Button
-                  variant="primary-solid"
-                  size="sm"
-                  onClick={() => onManageJob?.(id)}
-                  className="rounded-lg"
-                >
-                  Manage Job
-                </Button>
+                <div className="flex gap-2">
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={() => onDetail?.(id)}
+                    className="rounded-lg"
+                  >
+                    Detail
+                  </Button>
+                  <Button
+                    variant="primary-solid"
+                    size="sm"
+                    className="rounded-lg"
+                  >
+                    Manage Job
+                  </Button>
+                </div>
               </div>
             </div>
           </div>

@@ -6,6 +6,7 @@ const PUBLIC_ROUTES = [
   "/api/auth/login",
   "/api/auth/register",
   "/api/auth/logout",
+  "/api/public",
 ];
 
 const ADMIN_ROUTE_PREFIX = "/api/admin";

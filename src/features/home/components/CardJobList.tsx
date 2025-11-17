@@ -5,12 +5,12 @@ import {
   MapPinIcon,
   BanknotesIcon,
 } from "@heroicons/react/24/outline";
-import { Job } from "../pages/HomePage";
 import { Separator } from "@/components/ui/separator";
 import { formatSalary } from "@/utils/format";
+import { PublicJobResponse } from "../home.type";
 
 interface CardJobListProps {
-  job: Job;
+  job: PublicJobResponse;
   isActive?: boolean;
   onClick?: () => void;
 }
@@ -23,8 +23,8 @@ export const CardJobList = ({
   return (
     <Card
       className={cn(
-        "hover:border-primary-main cursor-pointer rounded-lg border p-0 transition-all hover:shadow-md",
-        isActive && "border-primary-main bg-primary-surface shadow-md"
+        "hover:border-primary-main cursor-pointer rounded-lg border p-0 shadow-none transition-all",
+        isActive && "border-primary-main bg-primary-surface"
       )}
       onClick={onClick}
     >
@@ -38,14 +38,14 @@ export const CardJobList = ({
             <h3 className="truncate text-lg font-bold text-neutral-900">
               {job.title}
             </h3>
-            <p className="truncate text-sm text-neutral-600">{job.company}</p>
+            <p className="truncate text-sm text-neutral-600">Company X</p>
           </div>
         </div>
         <Separator variant="dash" className="my-3" />
         <div className="space-y-2">
           <div className="flex items-center gap-1.5 text-neutral-600">
             <MapPinIcon strokeWidth={2} className="h-4 w-4" />
-            <span className="text-sm">{job.location}</span>
+            <span className="text-sm">Indonesia</span>
           </div>
           <div className="flex items-center gap-1.5 text-neutral-600">
             <BanknotesIcon strokeWidth={2} className="h-4 w-4" />

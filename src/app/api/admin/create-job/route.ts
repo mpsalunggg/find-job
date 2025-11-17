@@ -6,15 +6,22 @@ import { determineJobStatus, generateSlug } from "@/features/admin/job.utils";
 import { CreateJobType } from "@/features/admin/job.type";
 
 async function createJobService(data: CreateJobType, userId: string) {
-  const { status, startedOn } = determineJobStatus(data);
-  let slug = generateSlug(data.title);
+  const trimmedTitle = data.title.trim();
+  const trimmedDescription = data.description.trim();
+
+  const { status, startedOn } = determineJobStatus({
+    ...data,
+    title: data.title.trim(),
+    description: data.description.trim(),
+  });
+  let slug = generateSlug(trimmedTitle);
 
   const job = await prisma.$transaction(async (tx) => {
     let existingJob = await tx.job.findUnique({ where: { slug } });
     let counter = 1;
 
     while (existingJob) {
-      slug = `${generateSlug(data.title)}-${counter}`;
+      slug = `${generateSlug(trimmedTitle)}-${counter}`;
       existingJob = await tx.job.findUnique({ where: { slug } });
       counter++;
     }
@@ -22,9 +29,9 @@ async function createJobService(data: CreateJobType, userId: string) {
     const createdJob = await tx.job.create({
       data: {
         slug,
-        title: data.title,
+        title: trimmedTitle,
         jobType: data.jobType,
-        description: data.description,
+        description: trimmedDescription,
         numberOfCandidates: Number(data.numberOfCandidates),
         salaryMin: Number(data.salaryMin) || null,
         salaryMax: Number(data.salaryMax) || null,

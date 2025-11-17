@@ -1,67 +1,70 @@
 "use client";
 
 import { useState } from "react";
-import { JobListHeader, SortOrder } from "../components/JobListHeader";
+import { JobFilter, SortOrder } from "../../../components/common/JobFilter";
 import { RecruitmentCard } from "../components/RecruitmentCard";
 import { EmptyJobState } from "../components/EmptyJobState";
 import { JobCard } from "../components/JobCard";
 import { JobOpeningDialog } from "../components/JobOpeningDialog";
 import { useGetListJobs } from "../job.hook";
-
-// const DUMMY_JOBS: Job[] = [
-//   {
-//     id: "1",
-//     title: "Front End Developer",
-//     salaryMin: 7000000,
-//     salaryMax: 8000000,
-//     status: "active",
-//     startDate: "2025-10-01",
-//   },
-//   {
-//     id: "2",
-//     title: "Backend Developer",
-//     salaryMin: 8000000,
-//     salaryMax: 12000000,
-//     status: "active",
-//     startDate: "2025-09-15",
-//   },
-// ];
+import { JobResponse } from "../job.type";
+import { SkeletonJobCard } from "../../../components/common/SkeletonJobCard";
+import { useDebounce } from "@/hooks/useDebounce";
 
 const JobListPage = () => {
   const [searchQuery, setSearchQuery] = useState("");
-  const [sortOrder, setSortOrder] = useState<SortOrder>(null);
+  const [sortOrder, setSortOrder] = useState<SortOrder>("asc");
   const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const [dialogMode, setDialogMode] = useState<"create" | "edit">("create");
+  const [selectedJob, setSelectedJob] = useState<JobResponse | undefined>(
+    undefined
+  );
 
-  const { data: jobs, isLoading } = useGetListJobs();
-  console.log(jobs);
-  // const jobs = DUMMY_JOBS;
+  const debouncedSearch = useDebounce(searchQuery, 500);
+
+  const { data: jobs, isLoading: loadingJobs } = useGetListJobs(
+    debouncedSearch,
+    sortOrder as string
+  );
 
   const handleCreateJob = () => {
+    setDialogMode("create");
+    setSelectedJob(undefined);
     setIsDialogOpen(true);
   };
 
-  const handleManageJob = (jobId: string) => {
-    console.log(jobId);
+  const handleDetail = (jobId: string) => {
+    const job = jobs?.data.find((j) => j.id === jobId);
+    if (job) {
+      setDialogMode("edit");
+      setSelectedJob(job);
+      setIsDialogOpen(true);
+    }
   };
 
   return (
-    <>
-      <section>
-        <div className="grid grid-cols-12 gap-6">
-          <div className="col-span-12 lg:col-span-9">
-            <div className="space-y-6">
-              <JobListHeader
-                searchQuery={searchQuery}
-                onSearchChange={setSearchQuery}
-                sortOrder={sortOrder}
-                onSortChange={setSortOrder}
-              />
+    <section className="px-4 md:px-10 lg:px-20">
+      <div className="grid grid-cols-12 gap-6">
+        <div className="order-2 col-span-12 lg:order-1 lg:col-span-9">
+          <div className="space-y-6">
+            <div className="flex items-center justify-between">
+              <h1 className="text-2xl font-bold text-neutral-900">Job List</h1>
+            </div>
+            <JobFilter
+              searchQuery={searchQuery}
+              onSearchChange={setSearchQuery}
+              sortOrder={sortOrder}
+              onSortChange={setSortOrder}
+            />
 
-              {jobs?.data?.length === 0 && (
-                <EmptyJobState onCreateJob={handleCreateJob} />
-              )}
+            {jobs?.data?.length === 0 && (
+              <EmptyJobState onCreateJob={handleCreateJob} />
+            )}
 
-              {(jobs?.data || [])?.length > 0 && (
+            {loadingJobs ? (
+              <SkeletonJobCard />
+            ) : (
+              (jobs?.data || [])?.length > 0 && (
                 <div className="space-y-4">
                   {jobs?.data.map((job) => (
                     <JobCard
@@ -72,22 +75,27 @@ const JobListPage = () => {
                       salaryMax={job.salaryMax}
                       status={job.status}
                       startedOn={job.startedOn}
-                      onManageJob={handleManageJob}
+                      onDetail={handleDetail}
                     />
                   ))}
                 </div>
-              )}
-            </div>
-          </div>
-
-          <div className="col-span-12 lg:col-span-3">
-            <RecruitmentCard onCreateJob={handleCreateJob} />
+              )
+            )}
           </div>
         </div>
-      </section>
 
-      <JobOpeningDialog open={isDialogOpen} onOpenChange={setIsDialogOpen} />
-    </>
+        <div className="order-1 col-span-12 lg:order-2 lg:col-span-3">
+          <RecruitmentCard onCreateJob={handleCreateJob} />
+        </div>
+      </div>
+
+      <JobOpeningDialog
+        open={isDialogOpen}
+        onOpenChange={setIsDialogOpen}
+        mode={dialogMode}
+        jobData={selectedJob}
+      />
+    </section>
   );
 };
 

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
@@ -32,9 +32,10 @@ import { Separator } from "@/components/ui/separator";
 import { DEFAULT_PROFILE_FIELDS, JOB_TYPES } from "../job.constants";
 import { Card, CardContent } from "@/components/ui/card";
 import { JobFormSchema } from "../job.schema";
-import { useCreateJob } from "../job.hook";
+import { useCreateJob, useUpdateJob } from "../job.hook";
 import {
   JobFormType,
+  JobResponse,
   ProfileFieldRequirementType,
   ProfileFieldType,
 } from "../job.type";
@@ -42,29 +43,63 @@ import {
 interface JobOpeningDialogProps {
   open?: boolean;
   onOpenChange?: (open: boolean) => void;
+  mode?: "create" | "edit";
+  jobData?: JobResponse;
 }
 
 export const JobOpeningDialog = ({
   open,
   onOpenChange,
+  mode = "create",
+  jobData,
 }: JobOpeningDialogProps) => {
-  const { mutate: createJob, isPending } = useCreateJob();
+  const { mutate: createJob, isPending: isCreating } = useCreateJob();
+  const { mutate: updateJob, isPending: isUpdating } = useUpdateJob();
 
-  const [profileFields, setProfileFields] = useState<ProfileFieldType[]>(
-    DEFAULT_PROFILE_FIELDS
+  const isPending = isCreating || isUpdating;
+
+  const initialProfileFields = useMemo(() => {
+    if (jobData?.formFields) {
+      return jobData.formFields.map((field) => ({
+        key: field.key,
+        label: field.label,
+        fieldType: field.fieldType,
+        placeholder: field.placeholder,
+        helpText: field.helpText,
+        requirement: field.requirement,
+        order: field.order,
+      }));
+    }
+    return DEFAULT_PROFILE_FIELDS;
+  }, [jobData]);
+
+  const [profileFields, setProfileFields] =
+    useState<ProfileFieldType[]>(initialProfileFields);
+
+  const initialFormValues = useMemo(
+    () => ({
+      title: jobData?.title || "",
+      jobType: jobData?.jobType || "",
+      description: jobData?.description || "",
+      numberOfCandidates: jobData?.numberOfCandidates?.toString() || "",
+      salaryMin: jobData?.salaryMin?.toString() || "",
+      salaryMax: jobData?.salaryMax?.toString() || "",
+    }),
+    [jobData]
   );
 
   const form = useForm<JobFormType>({
     resolver: zodResolver(JobFormSchema),
-    defaultValues: {
-      title: "",
-      jobType: "",
-      description: "",
-      numberOfCandidates: "",
-      salaryMin: "",
-      salaryMax: "",
-    },
+    defaultValues: initialFormValues,
   });
+
+  useEffect(() => {
+    setProfileFields(initialProfileFields);
+  }, [initialProfileFields]);
+
+  useEffect(() => {
+    form.reset(initialFormValues);
+  }, [initialFormValues, form]);
 
   const handleProfileRequirementChange = (
     index: number,
@@ -73,6 +108,40 @@ export const JobOpeningDialog = ({
     const updated = [...profileFields];
     updated[index].requirement = requirement;
     setProfileFields(updated);
+  };
+
+  const handleStatusToggle = () => {
+    if (!jobData) return;
+
+    const newStatus = jobData.status === "ACTIVE" ? "INACTIVE" : "ACTIVE";
+
+    const apiData = {
+      title: jobData.title,
+      jobType: jobData.jobType,
+      description: jobData.description,
+      numberOfCandidates: jobData.numberOfCandidates.toString(),
+      salaryMin: jobData.salaryMin?.toString() || "",
+      salaryMax: jobData.salaryMax?.toString() || "",
+      profileFields: jobData.formFields.map((field) => ({
+        key: field.key,
+        label: field.label,
+        fieldType: field.fieldType,
+        placeholder: field.placeholder,
+        helpText: field.helpText,
+        requirement: field.requirement,
+        order: field.order,
+      })),
+      status: newStatus,
+    };
+
+    updateJob(
+      { ...apiData, id: jobData.id },
+      {
+        onSuccess: () => {
+          onOpenChange?.(false);
+        },
+      }
+    );
   };
 
   const onSubmit = (data: JobFormType) => {
@@ -94,20 +163,35 @@ export const JobOpeningDialog = ({
       })),
     };
 
-    createJob(apiData, {
-      onSuccess: () => {
-        form.reset();
-        setProfileFields(DEFAULT_PROFILE_FIELDS);
-        onOpenChange?.(false);
-      },
-    });
+    if (mode === "edit" && jobData) {
+      updateJob(
+        { ...apiData, id: jobData.id },
+        {
+          onSuccess: () => {
+            form.reset();
+            setProfileFields(DEFAULT_PROFILE_FIELDS);
+            onOpenChange?.(false);
+          },
+        }
+      );
+    } else {
+      createJob(apiData, {
+        onSuccess: () => {
+          form.reset();
+          setProfileFields(DEFAULT_PROFILE_FIELDS);
+          onOpenChange?.(false);
+        },
+      });
+    }
   };
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="scrollbar-stroke max-h-[90vh] w-full overflow-y-auto p-0 sm:min-w-[500px] md:min-w-[700px] lg:min-w-[900px]">
         <DialogHeader className="border-b p-6">
-          <DialogTitle className="text-xl font-bold">Job Opening</DialogTitle>
+          <DialogTitle className="text-xl font-bold">
+            {mode === "create" ? "Create Job Opening" : "Edit Job Opening"}
+          </DialogTitle>
         </DialogHeader>
 
         <Form {...form}>
@@ -205,7 +289,7 @@ export const JobOpeningDialog = ({
               )}
             />
 
-            <div className="space-y-4">
+            <div className="flex flex-col justify-end space-y-4">
               <Label>Job Salary</Label>
 
               <div className="grid grid-cols-1 gap-6 md:grid-cols-17 md:items-start">
@@ -215,6 +299,7 @@ export const JobOpeningDialog = ({
                     name="salaryMin"
                     render={({ field }) => (
                       <FormItem>
+                        <FormLabel>Minimum Estimated Salary</FormLabel>
                         <FormControl>
                           <div className="relative">
                             <span className="absolute top-1/2 left-3 -translate-y-1/2 text-sm text-neutral-500">
@@ -233,16 +318,17 @@ export const JobOpeningDialog = ({
                   />
                 </div>
 
-                <div className="hidden justify-center md:col-span-1 lg:flex">
-                  <Separator className="mt-5 w-full" />
+                <div className="flex justify-center md:col-span-1">
+                  <Separator className="hidden w-full lg:mt-10 lg:flex" />
                 </div>
 
-                <div className="space-y-2 md:col-span-8">
+                <div className="-mt-4 space-y-2 md:col-span-8 md:mt-0 lg:mt-0">
                   <FormField
                     control={form.control}
                     name="salaryMax"
                     render={({ field }) => (
                       <FormItem>
+                        <FormLabel>Maximum Estimated Salary</FormLabel>
                         <FormControl>
                           <div className="relative">
                             <span className="absolute top-1/2 left-3 -translate-y-1/2 text-sm text-neutral-500">
@@ -342,9 +428,35 @@ export const JobOpeningDialog = ({
               </CardContent>
             </Card>
 
-            <div className="flex justify-end gap-3 pt-4">
+            {mode === "edit" && jobData && (
+              <div className="bg-muted rounded-md p-3">
+                <p className="text-muted-foreground text-sm">
+                  Current status:{" "}
+                  <span className="text-foreground font-semibold">
+                    {jobData.status === "ACTIVE"
+                      ? "Active"
+                      : jobData.status === "INACTIVE"
+                        ? "Inactive"
+                        : "Draft"}
+                  </span>
+                  . Use the toggle button below to change the job status.
+                </p>
+              </div>
+            )}
+
+            <div className="flex justify-end gap-3">
+              {mode === "edit" && jobData && jobData.status === "ACTIVE" && (
+                <Button
+                  type="button"
+                  variant="outline"
+                  loading={isPending}
+                  onClick={handleStatusToggle}
+                >
+                  Set as Inactive
+                </Button>
+              )}
               <Button type="submit" loading={isPending} variant="primary-solid">
-                {"Publish"}
+                {mode === "create" ? "Publish" : "Update"}
               </Button>
             </div>
           </form>

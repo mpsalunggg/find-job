@@ -11,6 +11,7 @@ import { useMe, useLogout } from "@/features/auth/auth.hook";
 import { ArrowRightStartOnRectangleIcon } from "@heroicons/react/24/outline";
 import { Brand } from "../common/Brand";
 import { Separator } from "../ui/separator";
+import Link from "next/link";
 
 const Header = () => {
   const { data: user } = useMe();
@@ -22,7 +23,9 @@ const Header = () => {
 
   return (
     <header className="fixed top-0 z-50 flex h-14 w-full items-center justify-between bg-white px-4 py-3 shadow-md md:px-10 lg:px-20">
-      <Brand className="text-xl" />
+      <Link href="/">
+        <Brand className="text-xl" />
+      </Link>
 
       {user?.data && (
         <div className="flex h-full gap-4">

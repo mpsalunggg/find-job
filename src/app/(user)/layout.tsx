@@ -9,7 +9,7 @@ export default function HomeLayout({ children }: HomeLayoutProps) {
   return (
     <div className="h-screen">
       <Header />
-      <main className="px-4 pt-24 md:px-10 lg:px-20">{children}</main>
+      <main className="pt-24 pb-8">{children}</main>
     </div>
   );
 }

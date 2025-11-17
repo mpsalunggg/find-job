@@ -2,9 +2,15 @@ import { Tag } from "@/components/common/Tag";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
+import { formatJobType } from "@/utils/format";
 import { BuildingOffice2Icon } from "@heroicons/react/24/solid";
+import { PublicJobResponse } from "../home.type";
 
-const CardDetailJob = () => {
+interface CardDetailJobProps {
+  job?: PublicJobResponse;
+}
+
+const CardDetailJob = ({ job }: CardDetailJobProps) => {
   return (
     <Card className="h-full rounded-lg border p-0 shadow-none">
       <CardContent className="p-6">
@@ -16,11 +22,13 @@ const CardDetailJob = () => {
           <div className="flex w-full justify-between">
             <div className="space-y-2">
               <Tag icon={false} size="sm" variant="success-solid">
-                Fulltime
+                {formatJobType(job?.jobType)}
               </Tag>
               <div>
-                <p className="text-lg font-bold text-neutral-900">UX Writer</p>
-                <span className="text-sm text-neutral-700">Company</span>
+                <p className="text-lg font-bold text-neutral-900">
+                  {job?.title}
+                </p>
+                <span className="text-sm text-neutral-700">Company X</span>
               </div>
             </div>
             <Button variant="secondary-solid" size="sm">
@@ -29,21 +37,8 @@ const CardDetailJob = () => {
           </div>
         </div>
         <Separator className="my-6" />
-        <span>
-          Develop, test, and maintain responsive, high-performance web
-          applications using modern front-end technologies. Collaborate with
-          UI/UX designers to translate wireframes and prototypes into functional
-          code. Integrate front-end components with APIs and backend services.
-          Ensure cross-browser compatibility and optimize applications for
-          maximum speed and scalability. Write clean, reusable, and maintainable
-          code following best practices and coding standards. Participate in
-          code reviews, contributing to continuous improvement and knowledge
-          sharing. Troubleshoot and debug issues to improve usability and
-          overall application quality. Stay updated with emerging front-end
-          technologies and propose innovative solutions. Collaborate in
-          Agile/Scrum ceremonies, contributing to sprint planning, estimation,
-          and retrospectives.
-        </span>
+        {/* Todo: soon html content */}
+        <span>{job?.description}</span>
       </CardContent>
     </Card>
   );

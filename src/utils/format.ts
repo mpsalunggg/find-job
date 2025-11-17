@@ -17,3 +17,11 @@ export const formatDate = (dateString?: string) => {
     year: "numeric",
   });
 };
+
+export const formatJobType = (jobType?: string | null) => {
+  if (!jobType) return "";
+  return jobType
+    .split("-")
+    .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+    .join(" ");
+};

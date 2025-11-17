@@ -15,19 +15,19 @@ import {
 
 export type SortOrder = "asc" | "desc" | null;
 
-interface JobListHeaderProps {
+interface JobFilterProps {
   searchQuery?: string;
   onSearchChange?: (value: string) => void;
   sortOrder?: SortOrder;
   onSortChange?: (order: SortOrder) => void;
 }
 
-export const JobListHeader = ({
+export const JobFilter = ({
   searchQuery = "",
   onSearchChange,
   sortOrder,
   onSortChange,
-}: JobListHeaderProps) => {
+}: JobFilterProps) => {
   const [isOpen, setIsOpen] = useState(false);
 
   const handleSortChange = (order: SortOrder) => {
@@ -37,11 +37,27 @@ export const JobListHeader = ({
 
   return (
     <div className="space-y-6">
-      <div className="flex items-center justify-between">
-        <h1 className="text-2xl font-bold text-neutral-900">Job List</h1>
+      <div className="flex w-full gap-4">
+        <div className="relative w-full">
+          <Input
+            type="search"
+            placeholder="Search by job details"
+            value={searchQuery}
+            onChange={(e) => onSearchChange?.(e.target.value)}
+            className="pr-10"
+          />
+          <MagnifyingGlassIcon
+            strokeWidth={2}
+            className="text-primary-main absolute top-1/2 right-3 h-5 w-5 -translate-y-1/2"
+          />
+        </div>
         <Popover open={isOpen} onOpenChange={setIsOpen}>
           <PopoverTrigger asChild>
-            <Button variant="outline" size="default" className="gap-2">
+            <Button
+              variant="outline"
+              size="default"
+              className="h-10 gap-2 border-2 border-neutral-300"
+            >
               <AdjustmentsHorizontalIcon className="h-4 w-4" />
               Sort
             </Button>
@@ -69,20 +85,6 @@ export const JobListHeader = ({
             </div>
           </PopoverContent>
         </Popover>
-      </div>
-
-      <div className="relative">
-        <Input
-          type="search"
-          placeholder="Search by job details"
-          value={searchQuery}
-          onChange={(e) => onSearchChange?.(e.target.value)}
-          className="pr-10"
-        />
-        <MagnifyingGlassIcon
-          strokeWidth={2}
-          className="text-primary-main absolute top-1/2 right-3 h-5 w-5 -translate-y-1/2"
-        />
       </div>
     </div>
   );

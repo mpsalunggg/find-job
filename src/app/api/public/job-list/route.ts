@@ -4,12 +4,6 @@ import { successResponse, errorResponse } from "@/utils/response";
 
 export async function GET(request: NextRequest) {
   try {
-    const userId = request.headers.get("x-user-id");
-
-    if (!userId) {
-      return errorResponse("Unauthorized", 401);
-    }
-
     const { searchParams } = request.nextUrl;
     const search = searchParams.get("search") || "";
     const sort = searchParams.get("sort") || "desc";
@@ -19,7 +13,7 @@ export async function GET(request: NextRequest) {
 
     const jobs = await prisma.job.findMany({
       where: {
-        createdById: userId,
+        status: "ACTIVE",
         ...(search && {
           OR: [
             {
@@ -45,42 +39,24 @@ export async function GET(request: NextRequest) {
         },
       },
       orderBy: {
-        title: sortOrder as "asc" | "desc",
+        createdAt: sortOrder as "asc" | "desc",
       },
     });
 
     return successResponse(
-      "Success get job list",
+      "Success get public job list",
       jobs.map((job) => ({
         id: job.id,
-        slug: job.slug,
         title: job.title,
         jobType: job.jobType,
         description: job.description,
-        numberOfCandidates: job.numberOfCandidates,
-        status: job.status,
         salaryMin: job.salaryMin,
         salaryMax: job.salaryMax,
-        salaryCurrency: job.salaryCurrency,
-        startedOn: job.startedOn,
-        createdAt: job.createdAt,
-        updatedAt: job.updatedAt,
-        formFields: job.formFields.map((field) => ({
-          id: field.id,
-          key: field.key,
-          label: field.label,
-          fieldType: field.fieldType,
-          placeholder: field.placeholder,
-          helpText: field.helpText,
-          order: field.order,
-          requirement: field.requirement,
-          validationRules: field.validationRules,
-        })),
       })),
       200
     );
   } catch (error) {
     console.error(error);
-    return errorResponse("Failed to get job list", 500);
+    return errorResponse("Failed to get public job list", 500);
   }
 }

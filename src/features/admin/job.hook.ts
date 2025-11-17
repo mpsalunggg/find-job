@@ -2,13 +2,16 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { jobService } from "./job.service";
 import type { ApiError } from "@/types/response.type";
-import { CreateJobType } from "./job.type";
+import { CreateJobType, UpdateJobType } from "./job.type";
 import { toast } from "@/utils/toast";
 
 export const jobKeys = {
   createJob: ["create-job"] as const,
-  list: (search?: string, sort?: string) => ["list", search, sort] as const,
-  detail: (id: string) => ["detail", id] as const,
+  updateJob: ["update-job"] as const,
+  all: ["jobs"] as const,
+  list: (search?: string, sort?: string) =>
+    ["jobs", "list", search, sort] as const,
+  detail: (id: string) => ["jobs", "detail", id] as const,
 };
 
 export function useCreateJob() {
@@ -18,7 +21,24 @@ export function useCreateJob() {
     mutationKey: jobKeys.createJob,
     mutationFn: (data: CreateJobType) => jobService.createJob(data),
     onSuccess: (response) => {
-      queryClient.invalidateQueries({ queryKey: jobKeys.list() });
+      queryClient.invalidateQueries({ queryKey: jobKeys.all });
+      toast.success(response.message);
+    },
+    onError: (error: ApiError) => {
+      console.error(error);
+      toast.error(error.message);
+    },
+  });
+}
+
+export function useUpdateJob() {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationKey: jobKeys.updateJob,
+    mutationFn: (data: UpdateJobType) => jobService.updateJob(data),
+    onSuccess: (response) => {
+      queryClient.invalidateQueries({ queryKey: jobKeys.all });
       toast.success(response.message);
     },
     onError: (error: ApiError) => {

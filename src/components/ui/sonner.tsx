@@ -58,13 +58,13 @@ const Toaster = ({ ...props }: ToasterProps) => {
         unstyled: true,
         classNames: {
           toast:
-            "group font-sans relative flex rounded-sm items-center gap-3 pl-3 pr-10 py-3 rounded-xl shadow-lg bg-white border-l-4 min-w-80",
+            "group font-sans relative flex rounded-sm items-center gap-3 pl-3 pr-12 py-3 rounded-xl shadow-lg bg-white border-l-4 min-w-80",
           success: "border-l-success-main",
           error: "border-l-danger-main",
           warning: "border-l-warning-main",
           info: "border-l-primary-main",
           closeButton:
-            "absolute !text-xl !right-3 !top-1/2 !-translate-y-1/2 !bg-transparent !border-0 font-bold !text-muted-foreground hover:!text-foreground transition-colors",
+            "!absolute !right-2 !top-4 !bg-transparent !border-none !text-neutral-400 hover:!text-neutral-600 !cursor-pointer !p-1 !h-5 !w-5 !flex !items-center !justify-center",
         },
       }}
       {...props}

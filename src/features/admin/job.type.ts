@@ -18,6 +18,10 @@ export type CreateJobType = JobFormType & {
   profileFields: ProfileFieldType[];
 };
 
+export type UpdateJobType = CreateJobType & {
+  id: string;
+};
+
 export interface JobProfileField {
   id: string;
   key: string;
