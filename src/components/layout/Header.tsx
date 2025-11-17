@@ -12,9 +12,10 @@ import { ArrowRightStartOnRectangleIcon } from "@heroicons/react/24/outline";
 import { Brand } from "../common/Brand";
 import { Separator } from "../ui/separator";
 import Link from "next/link";
+import { useAuth } from "@/hooks/useAuth";
 
 const Header = () => {
-  const { data: user } = useMe();
+  const { user } = useAuth();
   const { mutate: logout, isPending } = useLogout();
 
   const getInitials = (email: string) => {
@@ -27,16 +28,16 @@ const Header = () => {
         <Brand className="text-xl" />
       </Link>
 
-      {user?.data && (
+      {user && (
         <div className="flex h-full gap-4">
           <Separator orientation="vertical" />
           <Popover>
             <PopoverTrigger asChild>
               <button className="cursor-pointer focus:outline-none">
                 <Avatar className="h-8 w-8 border-2">
-                  <AvatarImage src={user.data.candidate?.avatar} />
+                  <AvatarImage src={user.candidate?.avatar} />
                   <AvatarFallback className="bg-primary-surface text-primary-main text-sm font-semibold">
-                    {getInitials(user.data.email)}
+                    {getInitials(user.email)}
                   </AvatarFallback>
                 </Avatar>
               </button>
@@ -45,17 +46,17 @@ const Header = () => {
               <div className="border-b p-4">
                 <div className="flex items-center gap-3">
                   <Avatar className="h-12 w-12">
-                    <AvatarImage src={user.data.candidate?.avatar} />
+                    <AvatarImage src={user.candidate?.avatar} />
                     <AvatarFallback className="bg-primary-surface text-primary-main font-semibold">
-                      {getInitials(user.data.email)}
+                      {getInitials(user.email)}
                     </AvatarFallback>
                   </Avatar>
                   <div className="min-w-0 flex-1">
                     <p className="truncate text-sm font-semibold">
-                      {user.data.candidate?.fullName || "User"}
+                      {user.candidate?.fullName || "User"}
                     </p>
                     <p className="text-muted-foreground truncate text-xs">
-                      {user.data.email}
+                      {user.email}
                     </p>
                   </div>
                 </div>

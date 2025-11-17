@@ -9,8 +9,5 @@ export function useAuth() {
     user: data?.data || null,
     isLoading,
     isAuthenticated: !isError && !!data?.data,
-    hasRole: (role: string) => data?.data?.roles.includes(role) || false,
-    hasAnyRole: (roles: string[]) =>
-      roles.some((role) => data?.data?.roles.includes(role)) || false,
   };
 }

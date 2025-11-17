@@ -5,6 +5,7 @@ import { toast } from "@/utils/toast";
 import { useRouter } from "next/navigation";
 import { ReactNode, useEffect } from "react";
 import { Spinner } from "../ui/spinner";
+import { useAuth } from "@/hooks/useAuth";
 
 interface ProtectedRouteProps {
   children: ReactNode;
@@ -18,26 +19,26 @@ export function ProtectedRoute({
   redirectTo = "/",
 }: ProtectedRouteProps) {
   const router = useRouter();
-  const { data: user, isLoading, isError } = useMe();
+  const { user, isLoading, isAuthenticated } = useAuth();
 
   useEffect(() => {
     if (isLoading) return;
 
-    if (isError || !user?.data) {
+    if (!isAuthenticated || !user) {
       toast.error("User not authenticated");
       router.push("/login");
       return;
     }
 
     const hasRequiredRole = allowedRoles.some((role) =>
-      user.data.roles.includes(role)
+      user.roles.includes(role)
     );
 
     if (!hasRequiredRole) {
       toast.error("Sorry you dont have access to this menu");
       router.push(redirectTo);
     }
-  }, [user, isLoading, isError, allowedRoles, redirectTo, router]);
+  }, [user, isLoading, isAuthenticated, allowedRoles, redirectTo, router]);
 
   if (isLoading) {
     return (
@@ -47,12 +48,12 @@ export function ProtectedRoute({
     );
   }
 
-  if (isError || !user?.data) {
+  if (!isAuthenticated || !user) {
     return null;
   }
 
   const hasRequiredRole = allowedRoles.some((role) =>
-    user.data.roles.includes(role)
+    user.roles.includes(role)
   );
 
   if (!hasRequiredRole) {
