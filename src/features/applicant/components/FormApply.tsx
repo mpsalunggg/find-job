@@ -16,7 +16,7 @@ import {
 } from "@heroicons/react/24/outline";
 import Image from "next/image";
 import { useState } from "react";
-import { countryFlags } from "../applicant.constant";
+import { countryFlags } from "../applicant.constants";
 import { Calendar } from "@/components/ui/calendar";
 
 const FormApply = () => {

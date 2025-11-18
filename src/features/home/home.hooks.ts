@@ -1,6 +1,6 @@
 "use client";
 import { useQuery } from "@tanstack/react-query";
-import { homeService } from "./home.service";
+import { homeService } from "./home.services";
 
 export const homeKeys = {
   all: ["public-jobs"] as const,

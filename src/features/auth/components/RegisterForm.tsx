@@ -16,8 +16,8 @@ import { Card, CardContent } from "@/components/ui/card";
 
 import { InputPassword } from "@/components/ui/input-password";
 import Link from "next/link";
-import { AuthSchema, AuthType } from "../auth.schema";
-import { useRegister } from "../auth.hook";
+import { AuthSchema, AuthType } from "../auth.schemas";
+import { useRegister } from "../auth.hooks";
 
 const RegisterForm = () => {
   const { mutate, isPending } = useRegister();

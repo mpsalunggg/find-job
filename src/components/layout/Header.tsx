@@ -7,7 +7,7 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { Button } from "@/components/ui/button";
-import { useMe, useLogout } from "@/features/auth/auth.hook";
+import { useMe, useLogout } from "@/features/auth/auth.hooks";
 import { ArrowRightStartOnRectangleIcon } from "@heroicons/react/24/outline";
 import { Brand } from "../common/Brand";
 import { Separator } from "../ui/separator";

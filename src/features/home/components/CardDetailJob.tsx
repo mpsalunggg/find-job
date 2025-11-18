@@ -4,7 +4,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { formatJobType } from "@/utils/format";
 import { BuildingOffice2Icon } from "@heroicons/react/24/solid";
-import { PublicJobResponse } from "../home.type";
+import { PublicJobResponse } from "../home.types";
 import Link from "next/link";
 
 interface CardDetailJobProps {

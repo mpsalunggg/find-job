@@ -7,7 +7,7 @@ import {
 } from "@heroicons/react/24/outline";
 import { Separator } from "@/components/ui/separator";
 import { formatSalary } from "@/utils/format";
-import { PublicJobResponse } from "../home.type";
+import { PublicJobResponse } from "../home.types";
 
 interface CardJobListProps {
   job: PublicJobResponse;

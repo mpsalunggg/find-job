@@ -1,6 +1,6 @@
 import { api } from "@/lib/axios";
-import type { AuthResponse, MeResponse } from "./auth.type";
-import { AuthType } from "./auth.schema";
+import type { AuthResponse, MeResponse } from "./auth.types";
+import { AuthType } from "./auth.schemas";
 
 export const authService = {
   login: async (data: AuthType) => {

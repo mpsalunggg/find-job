@@ -1,6 +1,6 @@
 "use client";
 
-import { useMe } from "@/features/auth/auth.hook";
+import { useMe } from "@/features/auth/auth.hooks";
 
 export function useAuth() {
   const { data, isLoading, isError } = useMe();

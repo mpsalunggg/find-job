@@ -4,9 +4,9 @@ import { useState, useMemo } from "react";
 import CardDetailJob from "../components/CardDetailJob";
 import { CardJobList } from "../components/CardJobList";
 import { JobFilter, SortOrder } from "@/components/common/JobFilter";
-import { useGetPublicJobs } from "../home.hook";
+import { useGetPublicJobs } from "../home.hooks";
 import { useDebounce } from "@/hooks/useDebounce";
-import { PublicJobResponse } from "../home.type";
+import { PublicJobResponse } from "../home.types";
 import {
   SkeletonJobCard,
   SkeletonJobCardDetail,

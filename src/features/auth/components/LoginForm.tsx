@@ -16,8 +16,8 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { InputPassword } from "@/components/ui/input-password";
-import { AuthSchema, AuthType } from "../auth.schema";
-import { useLogin } from "../auth.hook";
+import { AuthSchema, AuthType } from "../auth.schemas";
+import { useLogin } from "../auth.hooks";
 
 const LoginForm = () => {
   const { mutate, isPending } = useLogin();

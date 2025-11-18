@@ -1,8 +1,8 @@
 "use client";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { authService } from "./auth.service";
+import { authService } from "./auth.services";
 import type { ApiError } from "@/types/response.type";
-import { AuthType } from "./auth.schema";
+import { AuthType } from "./auth.schemas";
 import { toast } from "@/utils/toast";
 import { useRouter } from "next/navigation";
 
