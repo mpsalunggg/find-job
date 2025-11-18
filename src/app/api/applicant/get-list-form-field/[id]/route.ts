@@ -11,6 +11,9 @@ export async function GET(
 
     const job = await prisma.job.findUnique({
       where: { id },
+      select: {
+        title: true,
+      },
     });
 
     if (!job) {
@@ -36,7 +39,11 @@ export async function GET(
       },
     });
 
-    return successResponse("Success get job form fields", formFields, 200);
+    return successResponse(
+      "Success get job form fields",
+      { job, ...formFields },
+      200
+    );
   } catch (error) {
     console.error(error);
     return errorResponse("Failed to get job form fields", 500);
