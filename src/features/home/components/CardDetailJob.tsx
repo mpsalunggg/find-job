@@ -5,6 +5,7 @@ import { Separator } from "@/components/ui/separator";
 import { formatJobType } from "@/utils/format";
 import { BuildingOffice2Icon } from "@heroicons/react/24/solid";
 import { PublicJobResponse } from "../home.type";
+import Link from "next/link";
 
 interface CardDetailJobProps {
   job?: PublicJobResponse;
@@ -31,9 +32,11 @@ const CardDetailJob = ({ job }: CardDetailJobProps) => {
                 <span className="text-sm text-neutral-700">Company X</span>
               </div>
             </div>
-            <Button variant="secondary-solid" size="sm">
-              Apply
-            </Button>
+            <Link href={`/applicant/apply/${job?.id}`}>
+              <Button variant="secondary-solid" size="sm">
+                Apply
+              </Button>
+            </Link>
           </div>
         </div>
         <Separator className="my-6" />

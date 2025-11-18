@@ -3,7 +3,7 @@ import prisma from "@/lib/prisma";
 import { FieldRequirement, JobStatus } from "@/generated/enums";
 import { successResponse, errorResponse } from "@/utils/response";
 import { determineJobStatus } from "@/features/admin/job.utils";
-import { UpdateJobType } from "@/features/admin/job.type";
+import { UpdateJobType } from "@/features/admin/job.types";
 
 async function updateJobService(
   data: UpdateJobType & { status?: string },

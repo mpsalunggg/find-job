@@ -20,7 +20,11 @@ export function useLogin() {
     onSuccess: (response) => {
       queryClient.invalidateQueries({ queryKey: authKeys.me() });
       toast.success(response.message);
-      router.push("/");
+      if (response.data.roles.includes("Admin")) {
+        router.push("/admin/job-list");
+      } else {
+        router.push("/");
+      }
     },
     onError: (error: ApiError) => {
       console.error(error);
@@ -54,10 +58,10 @@ export function useLogout() {
   return useMutation({
     mutationFn: () => authService.logout(),
     onSuccess: (response) => {
-      queryClient.setQueryData(authKeys.me(), null);
+      queryClient.removeQueries({ queryKey: authKeys.all });
 
       toast.success(response.message);
-      router.push("/login");
+      router.replace("/login");
     },
     onError: (error) => {
       console.error(error);

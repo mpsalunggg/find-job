@@ -10,7 +10,7 @@ export const ProfileFieldSchema = z.object({
   key: z.string(),
   label: z.string(),
   fieldType: z.string(),
-  placeholder: z.string(),
+  placeholder: z.string().nullable(),
   helpText: z.string().nullable(),
   requirement: ProfileFieldRequirementSchema,
   order: z.number(),

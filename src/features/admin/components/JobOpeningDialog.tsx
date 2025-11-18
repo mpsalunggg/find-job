@@ -31,14 +31,14 @@ import { Textarea } from "@/components/ui/textarea";
 import { Separator } from "@/components/ui/separator";
 import { DEFAULT_PROFILE_FIELDS, JOB_TYPES } from "../job.constants";
 import { Card, CardContent } from "@/components/ui/card";
-import { JobFormSchema } from "../job.schema";
-import { useCreateJob, useUpdateJob } from "../job.hook";
+import { JobFormSchema } from "../job.schemas";
+import { useCreateJob, useUpdateJob } from "../job.hooks";
 import {
   JobFormType,
   JobResponse,
   ProfileFieldRequirementType,
   ProfileFieldType,
-} from "../job.type";
+} from "../job.types";
 
 interface JobOpeningDialogProps {
   open?: boolean;

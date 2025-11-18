@@ -6,8 +6,8 @@ import { RecruitmentCard } from "../components/RecruitmentCard";
 import { EmptyJobState } from "../components/EmptyJobState";
 import { JobCard } from "../components/JobCard";
 import { JobOpeningDialog } from "../components/JobOpeningDialog";
-import { useGetListJobs } from "../job.hook";
-import { JobResponse } from "../job.type";
+import { useGetListJobs } from "../job.hooks";
+import { JobResponse } from "../job.types";
 import { SkeletonJobCard } from "../../../components/common/SkeletonJobCard";
 import { useDebounce } from "@/hooks/useDebounce";
 

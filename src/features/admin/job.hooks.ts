@@ -1,8 +1,8 @@
 "use client";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { jobService } from "./job.service";
+import { jobService } from "./job.services";
 import type { ApiError } from "@/types/response.type";
-import { CreateJobType, UpdateJobType } from "./job.type";
+import { CreateJobType, UpdateJobType } from "./job.types";
 import { toast } from "@/utils/toast";
 
 export const jobKeys = {

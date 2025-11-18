@@ -1,9 +1,8 @@
 "use client";
 
-import { useMe } from "@/features/auth/auth.hook";
 import { toast } from "@/utils/toast";
-import { useRouter } from "next/navigation";
-import { ReactNode, useEffect } from "react";
+import { useRouter, usePathname } from "next/navigation";
+import { ReactNode, useEffect, useRef } from "react";
 import { Spinner } from "../ui/spinner";
 import { useAuth } from "@/hooks/useAuth";
 
@@ -19,14 +18,21 @@ export function ProtectedRoute({
   redirectTo = "/",
 }: ProtectedRouteProps) {
   const router = useRouter();
+  const pathname = usePathname();
   const { user, isLoading, isAuthenticated } = useAuth();
+  const hasRedirectedRef = useRef(false);
 
   useEffect(() => {
     if (isLoading) return;
 
+    if (pathname === "/login" || hasRedirectedRef.current) {
+      return;
+    }
+
     if (!isAuthenticated || !user) {
+      hasRedirectedRef.current = true;
       toast.error("User not authenticated");
-      router.push("/login");
+      router.replace("/login");
       return;
     }
 
@@ -38,7 +44,15 @@ export function ProtectedRoute({
       toast.error("Sorry you dont have access to this menu");
       router.push(redirectTo);
     }
-  }, [user, isLoading, isAuthenticated, allowedRoles, redirectTo, router]);
+  }, [
+    user,
+    isLoading,
+    isAuthenticated,
+    allowedRoles,
+    redirectTo,
+    router,
+    pathname,
+  ]);
 
   if (isLoading) {
     return (
