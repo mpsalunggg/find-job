@@ -35,13 +35,12 @@ export async function GET(
         placeholder: true,
         helpText: true,
         order: true,
-        requirement: true,
       },
     });
 
     return successResponse(
       "Success get job form fields",
-      { job, ...formFields },
+      { job, formFields },
       200
     );
   } catch (error) {
