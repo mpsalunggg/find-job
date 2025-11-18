@@ -198,4 +198,8 @@
     background-color: theme("colors.neutral.400");
     border-radius: 8px;
   }
+
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
 }

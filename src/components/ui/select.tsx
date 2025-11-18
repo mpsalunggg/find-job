@@ -2,9 +2,11 @@
 
 import * as React from "react";
 import * as SelectPrimitive from "@radix-ui/react-select";
-import { CheckIcon, ChevronDownIcon, ChevronUpIcon } from "lucide-react";
+import { ChevronDownIcon } from "@heroicons/react/24/outline";
+import { CheckIcon, ChevronUpIcon } from "lucide-react";
 
 import { cn } from "@/lib/utils";
+import { Separator } from "./separator";
 
 function Select({
   ...props
@@ -28,9 +30,11 @@ function SelectTrigger({
   className,
   size = "default",
   children,
+  separator = false,
   ...props
 }: React.ComponentProps<typeof SelectPrimitive.Trigger> & {
   size?: "sm" | "default";
+  separator?: boolean;
 }) {
   return (
     <SelectPrimitive.Trigger
@@ -46,6 +50,7 @@ function SelectTrigger({
       <SelectPrimitive.Icon asChild>
         <ChevronDownIcon className="size-4 opacity-50" />
       </SelectPrimitive.Icon>
+      {separator && <Separator orientation="vertical" className="h-full" />}
     </SelectPrimitive.Trigger>
   );
 }

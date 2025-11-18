@@ -13,7 +13,6 @@ export default function ApplyPage() {
   const { data: listFormField, isLoading: loadingFormField } =
     useGetListFormFields(params.id as string);
 
-  console.log("dataaa", listFormField?.data);
   return (
     <section className="flex min-h-screen w-full items-center justify-center bg-neutral-50 p-4">
       <div className="mx-auto w-full max-w-[700px]">
@@ -21,8 +20,8 @@ export default function ApplyPage() {
           <Skeleton className="h-[90vh] w-full" />
         ) : (
           <Card className="relative h-[90vh] gap-0 overflow-hidden rounded-none border border-none border-neutral-200 bg-white p-0 shadow-none">
-            <CardContent className="m-0 h-full space-y-6 overflow-y-auto border p-10">
-              <div className="flex items-center gap-4">
+            <CardContent className="no-scrollbar relative m-0 h-full overflow-y-auto px-0">
+              <div className="flex gap-2 border-x border-t px-4 pt-4 pb-6 lg:gap-4 lg:px-10 lg:pt-10">
                 <Button
                   variant="outline"
                   size="icon"
@@ -32,14 +31,8 @@ export default function ApplyPage() {
                 </Button>
                 <p className="text-lg font-bold">Apply Front End at Rakamin</p>
               </div>
-              <FormApply />
+              <FormApply dataForm={listFormField?.data?.formFields} />
             </CardContent>
-
-            <CardFooter className="sticky bottom-0 w-full border-none bg-white p-0 px-10 py-6">
-              <Button variant="primary-solid" className="w-full">
-                Submit
-              </Button>
-            </CardFooter>
           </Card>
         )}
       </div>

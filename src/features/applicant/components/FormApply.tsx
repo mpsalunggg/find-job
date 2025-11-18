@@ -1,103 +1,272 @@
 "use client";
 
-import PhoneInput from "@/components/common/PhoneInput";
+import z from "zod";
+import { useState } from "react";
+import { format } from "date-fns";
+import Image from "next/image";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import {
   Popover,
-  PopoverContent,
   PopoverTrigger,
+  PopoverContent,
 } from "@/components/ui/popover";
+import { Calendar } from "@/components/ui/calendar";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import {
-  ArrowDownTrayIcon,
-  ChevronDownIcon,
-} from "@heroicons/react/24/outline";
-import Image from "next/image";
-import { useState } from "react";
-import { countryFlags } from "../applicant.constants";
-import { Calendar } from "@/components/ui/calendar";
+  Select,
+  SelectTrigger,
+  SelectValue,
+  SelectContent,
+  SelectItem,
+} from "@/components/ui/select";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
+import { ArrowUpTrayIcon, ChevronDownIcon } from "@heroicons/react/24/outline";
+import PhoneInput from "@/components/common/PhoneInput";
 
-const FormApply = () => {
-  const [open, setOpen] = useState(false);
-  const [date, setDate] = useState<Date | undefined>(undefined);
+import UploadImageProfile from "./UploadImageProfile";
+import { generateZodSchema } from "../applicant.schemas";
+import { FormFieldType } from "../applicant.types";
+import { checkMandatory } from "../applicant.utils";
+import { cn } from "@/lib/utils";
+
+interface FormApplyProps {
+  dataForm?: FormFieldType[];
+}
+
+const FormApply = ({ dataForm = [] }: FormApplyProps) => {
+  const schema = generateZodSchema(dataForm);
+  const form = useForm({
+    resolver: zodResolver(schema),
+    defaultValues: Object.fromEntries(dataForm.map((f) => [f.key, ""])),
+  });
+
+  const { setValue, watch } = form;
+
+  const [openCamera, setOpenCamera] = useState(false);
+  const [openDate, setOpenDate] = useState(false);
+
+  const handleSubmit = (values: z.infer<typeof schema>) => {
+    console.log(values);
+  };
+
   return (
-    <div className="space-y-4 px-6">
-      <p className="text-danger-main text-xs font-bold">* Required</p>
-      <div className="space-y-2">
-        <Label>Photo Profile</Label>
-        <Image
-          src="/images/default-profile.png"
-          width={200}
-          height={200}
-          alt="image-profile"
-          className="h-32 w-32 rounded-xl"
-        />
-        <Button variant="outline" className="border-neutral-200 font-bold">
-          <ArrowDownTrayIcon strokeWidth={2} />
-          Take a Picture
-        </Button>
-      </div>
-      <div className="space-y-2">
-        <Label>Full Name</Label>
-        <Input placeholder="" />
-      </div>
-      <div className="space-y-2">
-        <Label>Date of birth</Label>
-        <Popover open={open} onOpenChange={setOpen}>
-          <PopoverTrigger asChild>
-            <Button
-              variant="outline"
-              id="date"
-              className="h-10 w-full justify-between border-2 border-neutral-400/40 font-normal"
-            >
-              {date ? date.toLocaleDateString() : "sd"}
-              <ChevronDownIcon />
+    <div className="space-y-4 text-sm">
+      <Form {...form}>
+        <form onSubmit={form.handleSubmit(handleSubmit)}>
+          <div className="space-y-4 border-x px-4 pb-8 lg:px-16">
+            <p className="text-danger-main font-bold">* Required</p>
+            {dataForm
+              .sort((a, b) => a.order - b.order)
+              .map((field: FormFieldType) => (
+                <FormField
+                  key={field.key}
+                  control={form.control}
+                  name={field.key}
+                  render={({ field: formField }) => (
+                    <FormItem>
+                      <FormLabel className="gap-0 text-neutral-900">
+                        {field.label}
+                        {checkMandatory(field.requirement) && (
+                          <span className="text-danger-main">*</span>
+                        )}
+                      </FormLabel>
+
+                      <FormControl>
+                        {(() => {
+                          // eslint-disable-next-line react-hooks/incompatible-library
+                          const value = watch(field.key);
+
+                          switch (field.fieldType) {
+                            case "file":
+                              return (
+                                <div className="space-y-2">
+                                  <Image
+                                    src={
+                                      (value as string) ||
+                                      "/images/default-profile.png"
+                                    }
+                                    width={200}
+                                    height={200}
+                                    alt="image-profile"
+                                    className="h-32 w-32 rounded-xl object-cover"
+                                  />
+                                  <Button
+                                    type="button"
+                                    variant="outline"
+                                    className="border-neutral-200 font-bold shadow-sm"
+                                    onClick={() => setOpenCamera(true)}
+                                  >
+                                    <ArrowUpTrayIcon strokeWidth={2} />
+                                    Take a Picture
+                                  </Button>
+                                  <UploadImageProfile
+                                    open={openCamera}
+                                    onClose={() => setOpenCamera(false)}
+                                    onCapture={(img) =>
+                                      setValue(field.key, img)
+                                    }
+                                  />
+                                </div>
+                              );
+
+                            case "text":
+                            case "email":
+                            case "url":
+                              return (
+                                <Input
+                                  type={field.fieldType}
+                                  placeholder={field.placeholder ?? ""}
+                                  {...formField}
+                                  value={formField.value as string}
+                                  onChange={(e) =>
+                                    formField.onChange(e.target.value)
+                                  }
+                                />
+                              );
+
+                            case "tel":
+                              return (
+                                <PhoneInput
+                                  placeholder={field?.placeholder as string}
+                                  {...formField}
+                                  value={formField.value as string}
+                                  onChange={formField.onChange}
+                                />
+                              );
+
+                            case "date":
+                              return (
+                                <Popover
+                                  open={openDate}
+                                  onOpenChange={setOpenDate}
+                                >
+                                  <PopoverTrigger asChild>
+                                    <Button
+                                      data-invalid={
+                                        !!form.formState.errors[field.key]
+                                      }
+                                      variant="outline"
+                                      className={cn(
+                                        "h-10 w-full justify-between rounded-lg border-2 border-neutral-400/40 font-normal",
+                                        "data-[invalid=true]:border-destructive data-[invalid=true]:ring-destructive/20"
+                                      )}
+                                    >
+                                      {formField.value ? (
+                                        format(
+                                          formField.value as string,
+                                          "d MMMM yyyy"
+                                        )
+                                      ) : (
+                                        <span className="text-muted-foreground">
+                                          {field.placeholder ?? "Select date"}
+                                        </span>
+                                      )}
+                                      <ChevronDownIcon className="size-4 opacity-50" />
+                                    </Button>
+                                  </PopoverTrigger>
+                                  <PopoverContent
+                                    className="w-auto p-0"
+                                    align="start"
+                                  >
+                                    <Calendar
+                                      mode="single"
+                                      selected={formField.value as Date}
+                                      onSelect={(d) => {
+                                        formField.onChange(d);
+                                        setOpenDate(false);
+                                      }}
+                                    />
+                                  </PopoverContent>
+                                </Popover>
+                              );
+
+                            case "radio":
+                              return (
+                                <RadioGroup
+                                  value={formField.value as string}
+                                  onValueChange={formField.onChange}
+                                  className="flex"
+                                >
+                                  <div className="flex gap-3">
+                                    <RadioGroupItem
+                                      value="female"
+                                      id="female"
+                                    />
+                                    <Label htmlFor="female">
+                                      She/her (Female)
+                                    </Label>
+                                  </div>
+                                  <div className="flex gap-3">
+                                    <RadioGroupItem value="male" id="male" />
+                                    <Label htmlFor="male">He/him (Male)</Label>
+                                  </div>
+                                </RadioGroup>
+                              );
+
+                            case "select":
+                              return (
+                                <Select
+                                  value={formField.value as string}
+                                  onValueChange={formField.onChange}
+                                >
+                                  <SelectTrigger
+                                    data-invalid={
+                                      !!form.formState.errors[field.key]
+                                    }
+                                    className={cn(
+                                      "hover:bg-accent min-h-[40px] w-full rounded-lg border-neutral-400/40",
+                                      "data-[invalid=true]:border-destructive data-[invalid=true]:ring-destructive/20"
+                                    )}
+                                  >
+                                    <SelectValue
+                                      placeholder={
+                                        field.placeholder ?? "Select"
+                                      }
+                                    />
+                                  </SelectTrigger>
+                                  <SelectContent>
+                                    <SelectItem value="palu">Palu</SelectItem>
+                                    <SelectItem value="jakarta">
+                                      Jakarta
+                                    </SelectItem>
+                                    <SelectItem value="bali">Bali</SelectItem>
+                                    <SelectItem value="bandung">
+                                      Bandung
+                                    </SelectItem>
+                                  </SelectContent>
+                                </Select>
+                              );
+
+                            default:
+                              return null;
+                          }
+                        })()}
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              ))}
+          </div>
+          <div className="sticky bottom-0 w-full border-t bg-white p-0 px-4 py-6 lg:px-10">
+            <Button variant="primary-solid" className="w-full">
+              Submit
             </Button>
-          </PopoverTrigger>
-          <PopoverContent className="w-auto overflow-hidden p-0" align="start">
-            <Calendar
-              mode="single"
-              selected={date}
-              captionLayout="dropdown"
-              onSelect={(date) => {
-                setDate(date);
-                setOpen(false);
-              }}
-            />
-          </PopoverContent>
-        </Popover>
-      </div>
-      <div className="space-y-2">
-        <Label>Gender</Label>
-        <RadioGroup defaultValue="comfortable" className="flex">
-          <div className="flex items-center gap-3">
-            <RadioGroupItem value="default" id="r1" />
-            <Label htmlFor="r1">Default</Label>
           </div>
-          <div className="flex items-center gap-3">
-            <RadioGroupItem value="comfortable" id="r2" />
-            <Label htmlFor="r2">Comfortable</Label>
-          </div>
-          <div className="flex items-center gap-3">
-            <RadioGroupItem value="compact" id="r3" />
-            <Label htmlFor="r3">Compact</Label>
-          </div>
-        </RadioGroup>
-      </div>
-      <div className="space-y-2">
-        <Label>Phone number</Label>
-        <PhoneInput countryFlags={countryFlags} />
-      </div>
-      <div className="space-y-2">
-        <Label>Email</Label>
-        <Input type="email" placeholder="budiyanto@mail.com" />
-      </div>
-      <div className="space-y-2">
-        <Label>Link LinkedIn</Label>
-        <Input type="url" placeholder="https://www.linkedin.com/in/username" />
-      </div>
+        </form>
+      </Form>
     </div>
   );
 };

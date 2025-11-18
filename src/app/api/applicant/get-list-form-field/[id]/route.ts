@@ -35,6 +35,7 @@ export async function GET(
         placeholder: true,
         helpText: true,
         order: true,
+        requirement: true,
       },
     });
 
