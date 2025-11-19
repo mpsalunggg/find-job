@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { JobFilter, SortOrder } from "../../../components/common/JobFilter";
 import { RecruitmentCard } from "../components/RecruitmentCard";
-import { EmptyJobState } from "../components/EmptyJobState";
+import { EmptyJob } from "../components/EmptyJob";
 import { JobCard } from "../components/JobCard";
 import { JobOpeningDialog } from "../components/JobOpeningDialog";
 import { useGetListJobs } from "../job.hooks";
@@ -58,7 +58,7 @@ const JobListPage = () => {
             />
 
             {jobs?.data?.length === 0 && (
-              <EmptyJobState onCreateJob={handleCreateJob} />
+              <EmptyJob onCreateJob={handleCreateJob} />
             )}
 
             {loadingJobs ? (

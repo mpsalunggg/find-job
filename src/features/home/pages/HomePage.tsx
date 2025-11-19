@@ -2,7 +2,7 @@
 
 import { useState, useMemo } from "react";
 import CardDetailJob from "../components/CardDetailJob";
-import { CardJobList } from "../components/CardJobList";
+import CardJobList from "../components/CardJobList";
 import { JobFilter, SortOrder } from "@/components/common/JobFilter";
 import { useGetPublicJobs } from "../home.hooks";
 import { useDebounce } from "@/hooks/useDebounce";
@@ -11,6 +11,7 @@ import {
   SkeletonJobCard,
   SkeletonJobCardDetail,
 } from "@/components/common/SkeletonJobCard";
+import { EmptyJob } from "../components/EmptyJob";
 
 const HomePage = () => {
   const [searchQuery, setSearchQuery] = useState("");
@@ -34,6 +35,10 @@ const HomePage = () => {
     setActiveIndex(index);
     setSelectedJobId(job.id);
   };
+
+  if (dataJobs?.data?.length === 0) {
+    return <EmptyJob />;
+  }
 
   return (
     <section className="grid h-[calc(100vh-(--spacing(36)))] grid-cols-12 gap-6 px-4 md:px-10 lg:px-20">

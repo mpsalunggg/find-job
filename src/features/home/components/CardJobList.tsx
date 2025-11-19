@@ -15,11 +15,7 @@ interface CardJobListProps {
   onClick?: () => void;
 }
 
-export const CardJobList = ({
-  job,
-  isActive = false,
-  onClick,
-}: CardJobListProps) => {
+const CardJobList = ({ job, isActive = false, onClick }: CardJobListProps) => {
   return (
     <Card
       className={cn(
@@ -58,3 +54,5 @@ export const CardJobList = ({
     </Card>
   );
 };
+
+export default CardJobList;
