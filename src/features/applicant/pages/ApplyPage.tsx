@@ -31,7 +31,10 @@ export default function ApplyPage() {
                 </Button>
                 <p className="text-lg font-bold">Apply Front End at Rakamin</p>
               </div>
-              <FormApply dataForm={listFormField?.data?.formFields} />
+              <FormApply
+                dataForm={listFormField?.data?.formFields}
+                jobId={params.id as string}
+              />
             </CardContent>
           </Card>
         )}

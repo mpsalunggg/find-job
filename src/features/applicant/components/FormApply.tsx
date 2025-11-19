@@ -40,12 +40,15 @@ import { generateZodSchema } from "../applicant.schemas";
 import { FormFieldType } from "../applicant.types";
 import { checkMandatory } from "../applicant.utils";
 import { cn } from "@/lib/utils";
+import { useApplyJob } from "../applicant.hooks";
 
 interface FormApplyProps {
   dataForm?: FormFieldType[];
+  jobId: string;
 }
 
-const FormApply = ({ dataForm = [] }: FormApplyProps) => {
+const FormApply = ({ dataForm = [], jobId }: FormApplyProps) => {
+  const { mutate, isPending } = useApplyJob();
   const schema = generateZodSchema(dataForm);
   const form = useForm({
     resolver: zodResolver(schema),
@@ -58,7 +61,13 @@ const FormApply = ({ dataForm = [] }: FormApplyProps) => {
   const [openDate, setOpenDate] = useState(false);
 
   const handleSubmit = (values: z.infer<typeof schema>) => {
-    console.log(values);
+    mutate({
+      jobId,
+      dateOfBirth: values.dateOfBirth
+        ? format(values.dateOfBirth as Date, "yyyy-MM-dd")
+        : undefined,
+      ...values,
+    });
   };
 
   return (
@@ -114,9 +123,10 @@ const FormApply = ({ dataForm = [] }: FormApplyProps) => {
                                   <UploadImageProfile
                                     open={openCamera}
                                     onClose={() => setOpenCamera(false)}
-                                    onCapture={(img) =>
-                                      setValue(field.key, img)
-                                    }
+                                    onCapture={(img) => {
+                                      setValue(field.key, img);
+                                      form.clearErrors(field.key);
+                                    }}
                                   />
                                 </div>
                               );
@@ -261,7 +271,11 @@ const FormApply = ({ dataForm = [] }: FormApplyProps) => {
               ))}
           </div>
           <div className="sticky bottom-0 w-full border-t bg-white p-0 px-4 py-6 lg:px-10">
-            <Button variant="primary-solid" className="w-full">
+            <Button
+              loading={isPending}
+              variant="primary-solid"
+              className="w-full"
+            >
               Submit
             </Button>
           </div>

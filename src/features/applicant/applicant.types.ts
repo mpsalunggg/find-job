@@ -15,3 +15,15 @@ export interface ListFormFieldResponse {
   };
   formFields: FormFieldType[];
 }
+
+export interface ApplyJobPayload {
+  jobId: string;
+  fullName?: string;
+  email?: string;
+  phoneNumber?: string;
+  photoUrl?: string;
+  gender?: string;
+  domicile?: string;
+  linkedinUrl?: string;
+  dateOfBirth?: string;
+}
