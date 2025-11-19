@@ -2,8 +2,8 @@ import { NextRequest } from "next/server";
 import prisma from "@/lib/prisma";
 import { FieldRequirement, JobStatus } from "@/generated/enums";
 import { successResponse, errorResponse } from "@/utils/response";
-import { determineJobStatus } from "@/features/admin/job.utils";
-import { UpdateJobType } from "@/features/admin/job.types";
+import { determineJobStatus } from "@/features/admin/admin.utils";
+import { UpdateJobType } from "@/features/admin/admin.types";
 
 async function updateJobService(
   data: UpdateJobType & { status?: string },

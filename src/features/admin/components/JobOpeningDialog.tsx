@@ -29,16 +29,16 @@ import {
 } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
 import { Separator } from "@/components/ui/separator";
-import { DEFAULT_PROFILE_FIELDS, JOB_TYPES } from "../job.constants";
+import { DEFAULT_PROFILE_FIELDS, JOB_TYPES } from "../admin.constants";
 import { Card, CardContent } from "@/components/ui/card";
-import { JobFormSchema } from "../job.schemas";
-import { useCreateJob, useUpdateJob } from "../job.hooks";
+import { JobFormSchema } from "../admin.schemas";
+import { useCreateJob, useUpdateJob } from "../admin.hooks";
 import {
   JobFormType,
   JobResponse,
   ProfileFieldRequirementType,
   ProfileFieldType,
-} from "../job.types";
+} from "../admin.types";
 
 interface JobOpeningDialogProps {
   open?: boolean;

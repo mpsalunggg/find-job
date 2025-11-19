@@ -4,7 +4,7 @@ import {
   JobFormSchema,
   ProfileFieldRequirementSchema,
   ProfileFieldSchema,
-} from "./job.schemas";
+} from "./admin.schemas";
 
 export type ProfileFieldRequirementType = z.infer<
   typeof ProfileFieldRequirementSchema

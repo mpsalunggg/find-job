@@ -2,8 +2,8 @@ import { NextRequest } from "next/server";
 import prisma from "@/lib/prisma";
 import { FieldRequirement } from "@/generated/enums";
 import { successResponse, errorResponse } from "@/utils/response";
-import { determineJobStatus, generateSlug } from "@/features/admin/job.utils";
-import { CreateJobType } from "@/features/admin/job.types";
+import { determineJobStatus, generateSlug } from "@/features/admin/admin.utils";
+import { CreateJobType } from "@/features/admin/admin.types";
 
 async function createJobService(data: CreateJobType, userId: string) {
   const trimmedTitle = data.title.trim();

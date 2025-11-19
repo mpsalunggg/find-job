@@ -1,4 +1,4 @@
-import { ProfileFieldType } from "./job.types";
+import { ProfileFieldType } from "./admin.types";
 
 // Todo: if there is time, this data will be dynamic
 export const DEFAULT_PROFILE_FIELDS: ProfileFieldType[] = [
