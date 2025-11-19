@@ -24,7 +24,7 @@ export function useApplyJob() {
     mutationFn: (data: ApplyJobPayload) => applicantService.applyJob(data),
     onSuccess: (response) => {
       toast.success(response.message);
-      // router.push("/applicant/success");
+      router.push("/applicant/success-apply");
     },
     onError: (error: ApiError) => {
       console.error(error);

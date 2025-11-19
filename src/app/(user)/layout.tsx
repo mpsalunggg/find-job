@@ -11,7 +11,10 @@ interface HomeLayoutProps {
 export default function HomeLayout({ children }: HomeLayoutProps) {
   const pathname = usePathname();
 
-  const hideHeader = pathname.startsWith("/applicant/apply/");
+  const disableHeaderRoutes = ["/applicant/apply/", "/applicant/success"];
+  const hideHeader = disableHeaderRoutes.some((route) =>
+    pathname.startsWith(route)
+  );
   return (
     <div className="h-screen">
       {!hideHeader ? (
