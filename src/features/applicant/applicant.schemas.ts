@@ -24,7 +24,9 @@ export const generateZodSchema = (fields: FormFieldType[]) => {
         break;
 
       case "email":
-        schema = z.email("Format email tidak valid");
+        schema = z.email(
+          "Please enter your email in the format: name@example.com"
+        );
         if (isMandatory) {
           schema = schema.min(1, { message: `${f.label} is required` });
         } else {
@@ -42,7 +44,9 @@ export const generateZodSchema = (fields: FormFieldType[]) => {
         break;
 
       case "url":
-        schema = z.url("URL format is not valid");
+        schema = z.url(
+          "Please copy paste your Linkedin URL, example: https://www.linkedin.com/in/username"
+        );
         if (isMandatory) {
           schema = schema.min(1, { message: `${f.label} is required` });
         } else {

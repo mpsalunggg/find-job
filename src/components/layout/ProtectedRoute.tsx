@@ -40,7 +40,8 @@ export function ProtectedRoute({
       user.roles.includes(role)
     );
 
-    if (!hasRequiredRole) {
+    if (!hasRequiredRole && !hasRedirectedRef.current) {
+      hasRedirectedRef.current = true;
       toast.error("Sorry you dont have access to this menu");
       router.push(redirectTo);
     }
