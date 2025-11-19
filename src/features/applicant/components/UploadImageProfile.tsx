@@ -324,7 +324,7 @@ export default function UploadImageProfile({
                   </div>
                 )}
 
-                {model && !videoReady && (
+                {(!model || !videoReady) && (
                   <div className="absolute inset-0 flex items-center justify-center bg-black/70 text-white">
                     Initializing camera...
                   </div>
