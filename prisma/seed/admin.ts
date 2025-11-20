@@ -1,5 +1,5 @@
-import { PrismaClient } from "../../src/generated/client";
 import { hashPassword } from "@/lib/bcrypt";
+import { PrismaClient } from "@prisma/client";
 
 export async function seedAdmin(prisma: PrismaClient) {
   console.log("Process create admin user...");

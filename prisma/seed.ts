@@ -1,7 +1,7 @@
+import { PrismaClient } from "@prisma/client";
 import { seedRoles } from "./seed/roles";
 import { seedAdmin } from "./seed/admin";
 import { seedApplicant } from "./seed/applicant";
-import { PrismaClient } from "@prisma/client";
 
 const prisma = new PrismaClient();
 
