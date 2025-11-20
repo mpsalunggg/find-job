@@ -1,6 +1,6 @@
 import { NextRequest } from "next/server";
 import prisma from "@/lib/prisma";
-import { Prisma } from "@/generated/client";
+import { Prisma } from "@prisma/client";
 import { paginatedResponse, errorResponse } from "@/utils/response";
 
 export async function GET(request: NextRequest) {

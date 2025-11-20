@@ -1,6 +1,6 @@
 import { NextRequest } from "next/server";
 import prisma from "@/lib/prisma";
-import { FieldRequirement, JobStatus } from "@/generated/enums";
+import { FieldRequirement, JobStatus } from "@prisma/client";
 import { successResponse, errorResponse } from "@/utils/response";
 import { determineJobStatus } from "@/features/admin/admin.utils";
 import { UpdateJobType } from "@/features/admin/admin.types";
