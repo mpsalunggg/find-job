@@ -44,7 +44,7 @@ export const JobFilter = ({
             placeholder="Search by job details"
             value={searchQuery}
             onChange={(e) => onSearchChange?.(e.target.value)}
-            className="pr-10"
+            className="pr-10 focus-visible:ring-0 focus-visible:ring-offset-0"
           />
           <MagnifyingGlassIcon
             strokeWidth={2}
