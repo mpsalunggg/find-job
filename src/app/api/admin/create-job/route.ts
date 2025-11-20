@@ -15,7 +15,8 @@ async function createJobService(data: CreateJobType, userId: string) {
   });
   let slug = generateSlug(trimmedTitle);
 
-  const job = await prisma.$transaction(async (tx) => {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const job = await prisma.$transaction(async (tx: any) => {
     let existingJob = await tx.job.findUnique({ where: { slug } });
     let counter = 1;
 
