@@ -1,9 +1,7 @@
-import { PrismaClient } from "@prisma/client";
 import { seedRoles } from "./seed/roles";
 import { seedAdmin } from "./seed/admin";
 import { seedApplicant } from "./seed/applicant";
-
-const prisma = new PrismaClient();
+import prisma from "../src/lib/prisma";
 
 async function main() {
   console.log("Start seed...\n");
