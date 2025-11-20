@@ -1,7 +1,7 @@
-import { PrismaClient } from "@prisma/client";
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { hashPassword } from "@/lib/bcrypt";
 
-export async function seedApplicant(prisma: PrismaClient) {
+export async function seedApplicant(prisma: any) {
   console.log("Process create applicant user...");
 
   const applicantRole = await prisma.role.findUnique({

@@ -1,7 +1,7 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { hashPassword } from "@/lib/bcrypt";
-import { PrismaClient } from "@prisma/client";
 
-export async function seedAdmin(prisma: PrismaClient) {
+export async function seedAdmin(prisma: any) {
   console.log("Process create admin user...");
 
   const adminRole = await prisma.role.findUnique({

@@ -1,6 +1,5 @@
-import { PrismaClient } from "@prisma/client";
-
-export async function seedRoles(prisma: PrismaClient) {
+/* eslint-disable @typescript-eslint/no-explicit-any */
+export async function seedRoles(prisma: any) {
   console.log("Process create role...");
   const adminRole = await prisma.role.upsert({
     where: { name: "Admin" },
