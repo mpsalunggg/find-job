@@ -1,4 +1,4 @@
-import { JobStatus } from "@/generated/enums";
+import { JobStatus } from "@prisma/client";
 
 interface StatusDetermination {
   status: JobStatus;
