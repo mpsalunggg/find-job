@@ -1,6 +1,5 @@
 import { NextRequest } from "next/server";
 import prisma from "@/lib/prisma";
-import { FieldRequirement } from "@prisma/client";
 import { successResponse, errorResponse } from "@/utils/response";
 import { determineJobStatus, generateSlug } from "@/features/admin/admin.utils";
 import { CreateJobType } from "@/features/admin/admin.types";
@@ -50,7 +49,7 @@ async function createJobService(data: CreateJobType, userId: string) {
         placeholder: field.placeholder,
         helpText: field.helpText,
         order: field.order,
-        requirement: field.requirement as FieldRequirement,
+        requirement: field.requirement,
       };
     });
 

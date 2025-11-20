@@ -1,6 +1,5 @@
 import { NextRequest } from "next/server";
 import prisma from "@/lib/prisma";
-import { FieldRequirement, JobStatus } from "@prisma/client";
 import { successResponse, errorResponse } from "@/utils/response";
 import { determineJobStatus } from "@/features/admin/admin.utils";
 import { UpdateJobType } from "@/features/admin/admin.types";
@@ -12,11 +11,11 @@ async function updateJobService(
   const trimmedTitle = data.title.trim();
   const trimmedDescription = data.description.trim();
 
-  let finalStatus: JobStatus;
+  let finalStatus: string;
   let finalStartedOn: Date | null;
 
   if (data.status) {
-    finalStatus = data.status as JobStatus;
+    finalStatus = data.status;
     finalStartedOn = data.status === "ACTIVE" ? new Date() : null;
   } else {
     const { status, startedOn } = determineJobStatus({
@@ -24,7 +23,7 @@ async function updateJobService(
       title: trimmedTitle,
       description: trimmedDescription,
     });
-    finalStatus = status as JobStatus;
+    finalStatus = status;
     finalStartedOn = startedOn;
   }
 
@@ -49,7 +48,8 @@ async function updateJobService(
         numberOfCandidates: Number(data.numberOfCandidates),
         salaryMin: Number(data.salaryMin) || null,
         salaryMax: Number(data.salaryMax) || null,
-        status: finalStatus,
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        status: finalStatus as any,
         startedOn: finalStartedOn,
       },
     });
@@ -66,7 +66,7 @@ async function updateJobService(
       placeholder: field.placeholder,
       helpText: field.helpText,
       order: field.order,
-      requirement: field.requirement as FieldRequirement,
+      requirement: field.requirement,
     }));
 
     await tx.jobFormField.createMany({

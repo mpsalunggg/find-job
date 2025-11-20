@@ -1,6 +1,5 @@
 import { NextRequest } from "next/server";
 import prisma from "@/lib/prisma";
-import { Prisma } from "@prisma/client";
 import { paginatedResponse, errorResponse } from "@/utils/response";
 
 export async function GET(request: NextRequest) {
@@ -40,7 +39,8 @@ export async function GET(request: NextRequest) {
       return errorResponse("Job not found or access denied", 404);
     }
 
-    const whereClause: Prisma.ApplicationWhereInput = {
+    /* eslint-disable @typescript-eslint/no-explicit-any */
+    const whereClause: any = {
       jobId: jobId,
     };
 
@@ -55,8 +55,7 @@ export async function GET(request: NextRequest) {
     }
 
     if (status) {
-      whereClause.status =
-        status as Prisma.EnumApplicationStatusFilter<"Application">;
+      whereClause.status = status;
     }
 
     const total = await prisma.application.count({

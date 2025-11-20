@@ -1,7 +1,5 @@
-import { JobStatus } from "@prisma/client";
-
 interface StatusDetermination {
-  status: JobStatus;
+  status: string;
   startedOn: Date | null;
 }
 
@@ -23,13 +21,13 @@ export const determineJobStatus = (data: {
 
   if (isValid) {
     return {
-      status: JobStatus.ACTIVE,
+      status: "ACTIVE",
       startedOn: new Date(),
     };
   }
 
   return {
-    status: JobStatus.DRAFT,
+    status: "DRAFT",
     startedOn: null,
   };
 };
