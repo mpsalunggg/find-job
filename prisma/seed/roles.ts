@@ -22,8 +22,5 @@ export async function seedRoles(prisma: PrismaClient) {
   });
 
   console.log("Success create role");
-  console.log(`  - ${adminRole.name} (${adminRole.id})`);
-  console.log(`  - ${applicantRole.name} (${applicantRole.id})`);
-
   return { adminRole, applicantRole };
 }
