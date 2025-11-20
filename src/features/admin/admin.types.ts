@@ -46,7 +46,17 @@ export interface JobResponse {
   salaryMax: number | null;
   salaryCurrency: string;
   startedOn: string | null;
-  createdAt: string;
-  updatedAt: string;
   formFields: JobProfileField[];
+}
+
+export interface ApplicationResponse {
+  id: string;
+  fullName: string;
+  email: string;
+  phoneNumber: string | null;
+  dateOfBirth: string | null;
+  domicile: string | null;
+  gender: string | null;
+  linkedinUrl: string | null;
+  status: string;
 }

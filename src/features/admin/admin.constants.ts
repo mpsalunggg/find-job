@@ -83,3 +83,23 @@ export const JOB_TYPES = [
   "Internship",
   "Freelance",
 ];
+
+export const APPLICATION_STATUS_LABELS: Record<string, string> = {
+  SUBMITTED: "Submitted",
+  REVIEWING: "Reviewing",
+  SHORTLISTED: "Shortlisted",
+  INTERVIEW: "Interview",
+  OFFERED: "Offered",
+  ACCEPTED: "Accepted",
+  REJECTED: "Rejected",
+};
+
+export const APPLICATION_STATUS_COLORS: Record<string, string> = {
+  SUBMITTED: "bg-blue-100 text-blue-800",
+  REVIEWING: "bg-yellow-100 text-yellow-800",
+  SHORTLISTED: "bg-purple-100 text-purple-800",
+  INTERVIEW: "bg-indigo-100 text-indigo-800",
+  OFFERED: "bg-green-100 text-green-800",
+  ACCEPTED: "bg-emerald-100 text-emerald-800",
+  REJECTED: "bg-red-100 text-red-800",
+};

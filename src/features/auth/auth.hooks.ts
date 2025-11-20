@@ -7,8 +7,7 @@ import { toast } from "@/utils/toast";
 import { useRouter } from "next/navigation";
 
 export const authKeys = {
-  all: ["auth"] as const,
-  me: () => ["me"] as const,
+  me: ["me"] as const,
 };
 
 export function useLogin() {
@@ -18,7 +17,7 @@ export function useLogin() {
   return useMutation({
     mutationFn: (credentials: AuthType) => authService.login(credentials),
     onSuccess: (response) => {
-      queryClient.invalidateQueries({ queryKey: authKeys.me() });
+      queryClient.invalidateQueries({ queryKey: authKeys.me });
       toast.success(response.message);
       if (response.data.roles.includes("Admin")) {
         router.push("/admin/job-list");
@@ -40,7 +39,7 @@ export function useRegister() {
   return useMutation({
     mutationFn: (credentials: AuthType) => authService.register(credentials),
     onSuccess: (response) => {
-      queryClient.invalidateQueries({ queryKey: authKeys.me() });
+      queryClient.invalidateQueries({ queryKey: authKeys.me });
       toast.success(response.message);
       router.push("/");
     },
@@ -58,7 +57,7 @@ export function useLogout() {
   return useMutation({
     mutationFn: () => authService.logout(),
     onSuccess: (response) => {
-      queryClient.removeQueries({ queryKey: authKeys.all });
+      queryClient.removeQueries({ queryKey: authKeys.me });
 
       toast.success(response.message);
       router.replace("/login");
@@ -72,7 +71,7 @@ export function useLogout() {
 
 export function useMe(enabled: boolean = true) {
   return useQuery({
-    queryKey: authKeys.me(),
+    queryKey: authKeys.me,
     queryFn: () => authService.me(),
     enabled,
     retry: false,

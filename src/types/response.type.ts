@@ -3,6 +3,7 @@ export interface ApiResponse<T = any> {
   success: boolean;
   message: string;
   data: T;
+  additional?: Record<string, any> | null;
 }
 
 export interface ApiError {
@@ -19,4 +20,5 @@ export interface PaginatedData<T> {
     limit: number;
     totalPages: number;
   };
+  additional?: Record<string, any> | null;
 }

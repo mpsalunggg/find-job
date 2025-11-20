@@ -9,7 +9,7 @@ import { JobOpeningDialog } from "../components/JobOpeningDialog";
 import { useGetListJobs } from "../admin.hooks";
 import { JobResponse } from "../admin.types";
 import { SkeletonJobCard } from "../../../components/common/SkeletonJobCard";
-import { useDebounce } from "@/hooks/useDebounce";
+import useDebounced from "@/hooks/useDebounced";
 
 const JobListPage = () => {
   const [searchQuery, setSearchQuery] = useState("");
@@ -20,7 +20,7 @@ const JobListPage = () => {
     undefined
   );
 
-  const debouncedSearch = useDebounce(searchQuery, 500);
+  const debouncedSearch = useDebounced(searchQuery, 500);
 
   const { data: jobs, isLoading: loadingJobs } = useGetListJobs(
     debouncedSearch,
@@ -47,8 +47,10 @@ const JobListPage = () => {
       <div className="grid grid-cols-12 gap-6">
         <div className="order-2 col-span-12 lg:order-1 lg:col-span-9">
           <div className="space-y-6">
-            <div className="flex items-center justify-between">
-              <h1 className="text-2xl font-bold text-neutral-900">Job List</h1>
+            <div className="flex flex-wrap items-center gap-2 sm:gap-4">
+              <h1 className="text-lg font-bold text-neutral-900 sm:text-xl md:text-2xl">
+                Job List
+              </h1>
             </div>
             <JobFilter
               searchQuery={searchQuery}

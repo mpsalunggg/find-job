@@ -16,7 +16,10 @@ export async function GET(request: NextRequest) {
     const page = parseInt(searchParams.get("page") || "1");
     const limit = parseInt(searchParams.get("limit") || "10");
     const search = searchParams.get("search") || "";
-    const status = searchParams.get("status") || "";
+    const status =
+      searchParams.get("status") === "all"
+        ? undefined
+        : searchParams.get("status") || "";
 
     if (!jobId) {
       return errorResponse("Job ID is required", 400);
@@ -26,6 +29,10 @@ export async function GET(request: NextRequest) {
       where: {
         id: jobId,
         createdById: userId,
+      },
+      select: {
+        id: true,
+        title: true,
       },
     });
 
@@ -68,7 +75,7 @@ export async function GET(request: NextRequest) {
       take: limit,
     });
 
-    const items = applications.map((app, index) => ({
+    const items = applications.map((app) => ({
       id: app.id,
       fullName: app.candidate.fullName,
       email: app.candidate.email,
@@ -91,7 +98,10 @@ export async function GET(request: NextRequest) {
         limit,
         totalPages,
       },
-      200
+      200,
+      {
+        jobTitle: job.title,
+      }
     );
   } catch (error) {
     console.error(error);

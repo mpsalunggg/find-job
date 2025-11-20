@@ -2,6 +2,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { formatDate, formatSalary } from "@/utils/format";
 import { Tag } from "@/components/common/Tag";
+import Link from "next/link";
 
 interface JobCardProps {
   id: string;
@@ -69,13 +70,15 @@ export const JobCard = ({
                   >
                     Detail
                   </Button>
-                  <Button
-                    variant="primary-solid"
-                    size="sm"
-                    className="rounded-lg"
-                  >
-                    Manage Job
-                  </Button>
+                  <Link href={`/admin/manage-candidate/${id}`}>
+                    <Button
+                      variant="primary-solid"
+                      size="sm"
+                      className="rounded-lg"
+                    >
+                      Manage Job
+                    </Button>
+                  </Link>
                 </div>
               </div>
             </div>

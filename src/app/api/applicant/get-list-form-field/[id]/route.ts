@@ -23,6 +23,9 @@ export async function GET(
     const formFields = await prisma.jobFormField.findMany({
       where: {
         jobId: id,
+        requirement: {
+          in: ["MANDATORY", "OPTIONAL"],
+        },
       },
       orderBy: {
         order: "asc",

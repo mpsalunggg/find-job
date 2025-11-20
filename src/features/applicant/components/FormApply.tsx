@@ -76,199 +76,205 @@ const FormApply = ({ dataForm = [], jobId }: FormApplyProps) => {
         <form onSubmit={form.handleSubmit(handleSubmit)}>
           <div className="space-y-4 border-x px-4 pb-8 lg:px-16">
             <p className="text-danger-main font-bold">* Required</p>
-            {dataForm
-              .sort((a, b) => a.order - b.order)
-              .map((field: FormFieldType) => (
-                <FormField
-                  key={field.key}
-                  control={form.control}
-                  name={field.key}
-                  render={({ field: formField }) => (
-                    <FormItem>
-                      <FormLabel className="gap-0 text-neutral-900">
-                        {field.label}
-                        {checkMandatory(field.requirement) && (
-                          <span className="text-danger-main">*</span>
-                        )}
-                      </FormLabel>
+            {dataForm?.length ? (
+              dataForm
+                .sort((a, b) => a.order - b.order)
+                .map((field: FormFieldType) => (
+                  <FormField
+                    key={field.key}
+                    control={form.control}
+                    name={field.key}
+                    render={({ field: formField }) => (
+                      <FormItem>
+                        <FormLabel className="gap-0 text-neutral-900">
+                          {field.label}
+                          {checkMandatory(field.requirement) && (
+                            <span className="text-danger-main">*</span>
+                          )}
+                        </FormLabel>
 
-                      <FormControl>
-                        {(() => {
-                          // eslint-disable-next-line react-hooks/incompatible-library
-                          const value = watch(field.key);
+                        <FormControl>
+                          {(() => {
+                            // eslint-disable-next-line react-hooks/incompatible-library
+                            const value = watch(field.key);
 
-                          switch (field.fieldType) {
-                            case "file":
-                              return (
-                                <div className="space-y-2">
-                                  <Image
-                                    src={
-                                      (value as string) ||
-                                      "/images/default-profile.png"
-                                    }
-                                    width={200}
-                                    height={200}
-                                    alt="image-profile"
-                                    className="h-32 w-32 rounded-xl object-cover"
-                                  />
-                                  <Button
-                                    type="button"
-                                    variant="outline"
-                                    className="border-neutral-200 font-bold shadow-sm"
-                                    onClick={() => setOpenCamera(true)}
-                                  >
-                                    <ArrowUpTrayIcon strokeWidth={2} />
-                                    Take a Picture
-                                  </Button>
-                                  <UploadImageProfile
-                                    open={openCamera}
-                                    onClose={() => setOpenCamera(false)}
-                                    onCapture={(img) => {
-                                      setValue(field.key, img);
-                                      form.clearErrors(field.key);
-                                    }}
-                                  />
-                                </div>
-                              );
-
-                            case "text":
-                            case "email":
-                            case "url":
-                              return (
-                                <Input
-                                  type={field.fieldType}
-                                  placeholder={field.placeholder ?? ""}
-                                  {...formField}
-                                  value={formField.value as string}
-                                  onChange={(e) =>
-                                    formField.onChange(e.target.value)
-                                  }
-                                />
-                              );
-
-                            case "tel":
-                              return (
-                                <PhoneInput
-                                  placeholder={field?.placeholder as string}
-                                  {...formField}
-                                  value={formField.value as string}
-                                  onChange={formField.onChange}
-                                />
-                              );
-
-                            case "date":
-                              return (
-                                <Popover
-                                  open={openDate}
-                                  onOpenChange={setOpenDate}
-                                >
-                                  <PopoverTrigger asChild>
+                            switch (field.fieldType) {
+                              case "file":
+                                return (
+                                  <div className="space-y-2">
+                                    <Image
+                                      src={
+                                        (value as string) ||
+                                        "/images/default-profile.png"
+                                      }
+                                      width={200}
+                                      height={200}
+                                      alt="image-profile"
+                                      className="h-32 w-32 rounded-xl object-cover"
+                                    />
                                     <Button
+                                      type="button"
+                                      variant="outline"
+                                      className="border-neutral-200 font-bold shadow-sm"
+                                      onClick={() => setOpenCamera(true)}
+                                    >
+                                      <ArrowUpTrayIcon strokeWidth={2} />
+                                      Take a Picture
+                                    </Button>
+                                    <UploadImageProfile
+                                      open={openCamera}
+                                      onClose={() => setOpenCamera(false)}
+                                      onCapture={(img) => {
+                                        setValue(field.key, img);
+                                        form.clearErrors(field.key);
+                                      }}
+                                    />
+                                  </div>
+                                );
+
+                              case "text":
+                              case "email":
+                              case "url":
+                                return (
+                                  <Input
+                                    type={field.fieldType}
+                                    placeholder={field.placeholder ?? ""}
+                                    {...formField}
+                                    value={formField.value as string}
+                                    onChange={(e) =>
+                                      formField.onChange(e.target.value)
+                                    }
+                                  />
+                                );
+
+                              case "tel":
+                                return (
+                                  <PhoneInput
+                                    placeholder={field?.placeholder as string}
+                                    {...formField}
+                                    value={formField.value as string}
+                                    onChange={formField.onChange}
+                                  />
+                                );
+
+                              case "date":
+                                return (
+                                  <Popover
+                                    open={openDate}
+                                    onOpenChange={setOpenDate}
+                                  >
+                                    <PopoverTrigger asChild>
+                                      <Button
+                                        data-invalid={
+                                          !!form.formState.errors[field.key]
+                                        }
+                                        variant="outline"
+                                        className={cn(
+                                          "h-10 w-full justify-between rounded-lg border-2 border-neutral-400/40 font-normal",
+                                          "data-[invalid=true]:border-destructive data-[invalid=true]:ring-destructive/20"
+                                        )}
+                                      >
+                                        {formField.value ? (
+                                          format(
+                                            formField.value as string,
+                                            "d MMMM yyyy"
+                                          )
+                                        ) : (
+                                          <span className="text-muted-foreground">
+                                            {field.placeholder ?? "Select date"}
+                                          </span>
+                                        )}
+                                        <ChevronDownIcon className="size-4 opacity-50" />
+                                      </Button>
+                                    </PopoverTrigger>
+                                    <PopoverContent
+                                      className="w-auto p-0"
+                                      align="start"
+                                    >
+                                      <Calendar
+                                        mode="single"
+                                        selected={formField.value as Date}
+                                        onSelect={(d) => {
+                                          formField.onChange(d);
+                                          setOpenDate(false);
+                                        }}
+                                      />
+                                    </PopoverContent>
+                                  </Popover>
+                                );
+
+                              case "radio":
+                                return (
+                                  <RadioGroup
+                                    value={formField.value as string}
+                                    onValueChange={formField.onChange}
+                                    className="flex"
+                                  >
+                                    <div className="flex gap-3">
+                                      <RadioGroupItem
+                                        value="female"
+                                        id="female"
+                                      />
+                                      <Label htmlFor="female">
+                                        She/her (Female)
+                                      </Label>
+                                    </div>
+                                    <div className="flex gap-3">
+                                      <RadioGroupItem value="male" id="male" />
+                                      <Label htmlFor="male">
+                                        He/him (Male)
+                                      </Label>
+                                    </div>
+                                  </RadioGroup>
+                                );
+
+                              case "select":
+                                return (
+                                  <Select
+                                    value={formField.value as string}
+                                    onValueChange={formField.onChange}
+                                  >
+                                    <SelectTrigger
                                       data-invalid={
                                         !!form.formState.errors[field.key]
                                       }
-                                      variant="outline"
                                       className={cn(
-                                        "h-10 w-full justify-between rounded-lg border-2 border-neutral-400/40 font-normal",
+                                        "hover:bg-accent min-h-[40px] w-full rounded-lg border-neutral-400/40",
                                         "data-[invalid=true]:border-destructive data-[invalid=true]:ring-destructive/20"
                                       )}
                                     >
-                                      {formField.value ? (
-                                        format(
-                                          formField.value as string,
-                                          "d MMMM yyyy"
-                                        )
-                                      ) : (
-                                        <span className="text-muted-foreground">
-                                          {field.placeholder ?? "Select date"}
-                                        </span>
-                                      )}
-                                      <ChevronDownIcon className="size-4 opacity-50" />
-                                    </Button>
-                                  </PopoverTrigger>
-                                  <PopoverContent
-                                    className="w-auto p-0"
-                                    align="start"
-                                  >
-                                    <Calendar
-                                      mode="single"
-                                      selected={formField.value as Date}
-                                      onSelect={(d) => {
-                                        formField.onChange(d);
-                                        setOpenDate(false);
-                                      }}
-                                    />
-                                  </PopoverContent>
-                                </Popover>
-                              );
+                                      <SelectValue
+                                        placeholder={
+                                          field.placeholder ?? "Select"
+                                        }
+                                      />
+                                    </SelectTrigger>
+                                    <SelectContent>
+                                      <SelectItem value="palu">Palu</SelectItem>
+                                      <SelectItem value="jakarta">
+                                        Jakarta
+                                      </SelectItem>
+                                      <SelectItem value="bali">Bali</SelectItem>
+                                      <SelectItem value="bandung">
+                                        Bandung
+                                      </SelectItem>
+                                    </SelectContent>
+                                  </Select>
+                                );
 
-                            case "radio":
-                              return (
-                                <RadioGroup
-                                  value={formField.value as string}
-                                  onValueChange={formField.onChange}
-                                  className="flex"
-                                >
-                                  <div className="flex gap-3">
-                                    <RadioGroupItem
-                                      value="female"
-                                      id="female"
-                                    />
-                                    <Label htmlFor="female">
-                                      She/her (Female)
-                                    </Label>
-                                  </div>
-                                  <div className="flex gap-3">
-                                    <RadioGroupItem value="male" id="male" />
-                                    <Label htmlFor="male">He/him (Male)</Label>
-                                  </div>
-                                </RadioGroup>
-                              );
-
-                            case "select":
-                              return (
-                                <Select
-                                  value={formField.value as string}
-                                  onValueChange={formField.onChange}
-                                >
-                                  <SelectTrigger
-                                    data-invalid={
-                                      !!form.formState.errors[field.key]
-                                    }
-                                    className={cn(
-                                      "hover:bg-accent min-h-[40px] w-full rounded-lg border-neutral-400/40",
-                                      "data-[invalid=true]:border-destructive data-[invalid=true]:ring-destructive/20"
-                                    )}
-                                  >
-                                    <SelectValue
-                                      placeholder={
-                                        field.placeholder ?? "Select"
-                                      }
-                                    />
-                                  </SelectTrigger>
-                                  <SelectContent>
-                                    <SelectItem value="palu">Palu</SelectItem>
-                                    <SelectItem value="jakarta">
-                                      Jakarta
-                                    </SelectItem>
-                                    <SelectItem value="bali">Bali</SelectItem>
-                                    <SelectItem value="bandung">
-                                      Bandung
-                                    </SelectItem>
-                                  </SelectContent>
-                                </Select>
-                              );
-
-                            default:
-                              return null;
-                          }
-                        })()}
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-              ))}
+                              default:
+                                return null;
+                            }
+                          })()}
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                ))
+            ) : (
+              <p>Easy apply, fill in the form to apply quickly.</p>
+            )}
           </div>
           <div className="sticky bottom-0 w-full border-t bg-white p-0 px-4 py-6 lg:px-10">
             <Button

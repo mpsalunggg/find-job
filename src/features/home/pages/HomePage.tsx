@@ -5,7 +5,7 @@ import CardDetailJob from "../components/CardDetailJob";
 import CardJobList from "../components/CardJobList";
 import { JobFilter, SortOrder } from "@/components/common/JobFilter";
 import { useGetPublicJobs } from "../home.hooks";
-import { useDebounce } from "@/hooks/useDebounce";
+import useDebounced from "@/hooks/useDebounced";
 import { PublicJobResponse } from "../home.types";
 import {
   SkeletonJobCard,
@@ -16,7 +16,7 @@ import { EmptyJob } from "../components/EmptyJob";
 const HomePage = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [sortOrder, setSortOrder] = useState<SortOrder>("asc");
-  const debouncedSearch = useDebounce(searchQuery, 500);
+  const debouncedSearch = useDebounced(searchQuery, 500);
 
   const { data: dataJobs, isLoading: loadingDataJobs } = useGetPublicJobs(
     debouncedSearch,

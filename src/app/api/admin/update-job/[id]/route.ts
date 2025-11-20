@@ -96,13 +96,7 @@ export async function PUT(
 
     const job = await updateJobService(jobData, userId);
 
-    return successResponse(
-      job?.status === "ACTIVE"
-        ? "Job vacancy successfully updated"
-        : "Job updated as draft successfully",
-      { job },
-      200
-    );
+    return successResponse("Job vacancy successfully updated", { job }, 200);
   } catch (error) {
     console.error(error);
     return errorResponse("Failed to update job data", 500);

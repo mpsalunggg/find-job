@@ -12,6 +12,13 @@ export const jobKeys = {
   list: (search?: string, sort?: string) =>
     ["jobs", "list", search, sort] as const,
   detail: (id: string) => ["jobs", "detail", id] as const,
+  applications: (
+    jobId: string,
+    page?: number,
+    limit?: number,
+    search?: string,
+    status?: string
+  ) => ["applications", jobId, page, limit, search, status] as const,
 };
 
 export function useCreateJob() {
@@ -52,5 +59,43 @@ export function useGetListJobs(search?: string, sort?: string) {
   return useQuery({
     queryKey: jobKeys.list(search, sort),
     queryFn: () => jobService.getListJobs(search, sort),
+  });
+}
+
+export function useGetListApplications(
+  jobId: string,
+  page?: number,
+  limit?: number,
+  search?: string,
+  status?: string
+) {
+  return useQuery({
+    queryKey: jobKeys.applications(jobId, page, limit, search, status),
+    queryFn: () =>
+      jobService.getListApplications(jobId, page, limit, search, status),
+  });
+}
+
+export function useUpdateApplicationStatus(jobId?: string) {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: (data: { applicationIds: string[]; status: string }) =>
+      jobService.updateApplicationStatus(data),
+    onSuccess: (response) => {
+      // Invalidate all applications queries to refresh the list
+      if (jobId) {
+        queryClient.invalidateQueries({
+          queryKey: jobKeys.applications(jobId),
+        });
+      } else {
+        queryClient.invalidateQueries({ queryKey: ["applications"] });
+      }
+      toast.success(response.message);
+    },
+    onError: (error: ApiError) => {
+      console.error(error);
+      toast.error(error.message);
+    },
   });
 }
