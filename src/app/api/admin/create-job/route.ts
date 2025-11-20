@@ -34,7 +34,8 @@ async function createJobService(data: CreateJobType, userId: string) {
         numberOfCandidates: Number(data.numberOfCandidates),
         salaryMin: Number(data.salaryMin) || null,
         salaryMax: Number(data.salaryMax) || null,
-        status,
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        status: status as any,
         startedOn,
         createdById: userId,
       },
