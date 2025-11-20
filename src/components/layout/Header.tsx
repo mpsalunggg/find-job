@@ -28,7 +28,7 @@ const Header = () => {
         <Brand className="text-xl" />
       </Link>
 
-      {user && (
+      {user ? (
         <div className="flex h-full gap-4">
           <Separator orientation="vertical" />
           <Popover>
@@ -76,6 +76,15 @@ const Header = () => {
             </PopoverContent>
           </Popover>
         </div>
+      ) : (
+        <Link href="/login">
+          <Button
+            variant="primary-solid"
+            className="w-full justify-start gap-2"
+          >
+            Login
+          </Button>
+        </Link>
       )}
     </header>
   );
