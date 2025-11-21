@@ -268,7 +268,7 @@ export const TableData = <T extends object>({
     state: {
       rowSelection: rowSelection || {},
       columnOrder: enableColumnReordering ? columnOrder : undefined,
-      columnSizing: enableColumnResizing ? columnSizing : undefined,
+      columnSizing,
       sorting,
     },
     onColumnOrderChange: enableColumnReordering ? setColumnOrder : undefined,
