@@ -12,6 +12,7 @@ import {
   SkeletonJobCardDetail,
 } from "@/components/common/SkeletonJobCard";
 import { EmptyJob } from "../components/EmptyJob";
+import { cn } from "@/lib/utils";
 
 const HomePage = () => {
   const [searchQuery, setSearchQuery] = useState("");
@@ -36,13 +37,13 @@ const HomePage = () => {
     setSelectedJobId(job.id);
   };
 
-  if (dataJobs?.data?.length === 0) {
-    return <EmptyJob />;
-  }
+  // if (dataJobs?.data?.length === 0) {
+  //   return <EmptyJob />;
+  // }
 
   return (
     <section className="grid h-[calc(100vh-(--spacing(36)))] grid-cols-12 gap-6 px-4 md:px-10 lg:px-20">
-      <div className="scrollbar-stroke col-span-12 h-full overflow-y-auto pr-3 lg:col-span-4">
+      <div className="scrollbar-stroke col-span-12 overflow-y-auto pr-3 lg:col-span-4">
         <div className="flex flex-col gap-4">
           <JobFilter
             searchQuery={searchQuery}
@@ -66,8 +67,17 @@ const HomePage = () => {
         </div>
       </div>
 
-      <div className="hidden h-full w-full lg:col-span-8 lg:block">
-        {loadingDataJobs ? (
+      <div
+        className={cn(
+          "h-full w-full",
+          dataJobs?.data?.length === 0
+            ? "col-span-12 lg:col-span-12"
+            : "hidden lg:col-span-8 lg:block"
+        )}
+      >
+        {dataJobs?.data?.length === 0 ? (
+          <EmptyJob />
+        ) : loadingDataJobs ? (
           <SkeletonJobCardDetail />
         ) : (
           <CardDetailJob job={selectedJob} />
